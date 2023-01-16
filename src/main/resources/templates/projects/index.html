@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projekty</title>
+</head>
+<body>
+<h1>
+    Projekty
+</h1>
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <td>
+                Kod
+            </td>
+            <td>
+                Nazwa
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- wyświetli w pętli wszystkie projekty -->
+        <tr th:each="project: ${projects}">
+            <td th:text="${project.code}"></td>
+            <td th:text="${project.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
