@@ -14,25 +14,22 @@
 
 <div class="container">
 
-    <h1 th:if="${project.id == null}">
-        Nowy projekt
-    </h1>
+    <!--Nowy projekt-->
+    <h1 th:if="${project.id == null}" th:text="#{design.create}"></h1>
 
-    <h1 th:if="${project.id != null}">
-        Edycja projektu <span th:text="${project.code}"></span>
-    </h1>
+<!--TODO: poprawić wyświetlanie kodu projektu za słowami Edycja projektu-->
+    <!--Edycja projektu-->
+    <h1 th:if="${project.id != null}" th:text="#{design.projectEdition}"></h1>
+    <h1 th:text="${project.code}"></h1>
 
     <form th:action="@{/projects/save}" th:object="${project}" method="post">
-<!--    Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w
-        bazie danych-->
+        <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
         <input type="hidden" th:field="*{id}">
 
-<!--    Nazwa-->
+        <!--Nazwa-->
         <div class="mb-3 row">
             <div class="col-1">
-                <label for="project-name" class="form-label">
-                    Nazwa
-                </label>
+                <label for="project-name" class="form-label" th:text="#{design.name}"></label>
             </div>
 
             <div class="col-4">
@@ -40,12 +37,10 @@
             </div>
         </div>
 
-<!--    Kod-->
+        <!--Kod-->
         <div class="mb-3 row">
             <div class="col-1">
-                <label for="project-code" class="form-label">
-                    Kod
-                </label>
+                <label for="project-code" class="form-label" th:text="#{design.code}"></label>
             </div>
 
             <div class="col-2">
@@ -53,36 +48,30 @@
             </div>
         </div>
 
-<!--    Opis-->
+        <!--Opis-->
         <div class="mb-3 row">
             <div class="col-1">
-                <label for="project-description" class="form-label">
-                    Opis
-                </label>
+                <label for="project-description" class="form-label" th:text="#{design.description}"></label>
             </div>
 
             <div class="col-8">
                 <textarea
-                        placeholder="Podstawowe przystosowanie systemu do potrzeb klienta. W pierwszym etapie wdrożenie testowe."
+                        placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut elit in libero porttitor interdum."
                         class="form-control" id="project-description" rows="10"
                         th:field="*{description}">
                 </textarea>
             </div>
         </div>
 
-<!--    Przycisk zapisz-->
-        <button type="submit" class="btn btn-primary">
-            Zapisz
-        </button>
+        <!--Przycisk zapisz-->
+        <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
 
-<!--    Przycisk anuluj-->
-        <a th:href="@{/projects}" class="btn btn-secondary">
-            Anuluj
-        </a>
+        <!--Przycisk anuluj-->
+        <a th:href="@{/projects}" class="btn btn-secondary" th:text="#{common.cancel}"></a>
 
-<!--    Przycisk usuń-->
-        <a class="btn btn-danger" th:if="${project.id}" th:href="@{../delete/{id}(id=${project.id})}">
-            Usuń
+        <!--Przycisk usuń-->
+        <a class="btn btn-danger" th:if="${project.id}" th:href="@{../delete/{id}(id=${project.id})}"
+           th:text="#{common.delete}">
         </a>
     </form>
 </div>

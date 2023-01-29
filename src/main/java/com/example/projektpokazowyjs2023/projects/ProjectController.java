@@ -36,7 +36,6 @@ public class ProjectController {
     }
 
     // edycja formularza
-
     /**
      * https://www.baeldung.com/spring-boot-crud-thymeleaf
      */
@@ -53,7 +52,6 @@ public class ProjectController {
     }
 
     // wysłanie formularza do akcji save
-
     /**
      * Dokumentacja -> https://spring.io/guides/gs/handling-form-submission/
      */
