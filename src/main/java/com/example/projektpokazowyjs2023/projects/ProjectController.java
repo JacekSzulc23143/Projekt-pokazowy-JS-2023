@@ -39,8 +39,8 @@ public class ProjectController {
     /**
      * https://www.baeldung.com/spring-boot-crud-thymeleaf
      */
-    @GetMapping("/edit/{id}")
     // TODO: @Secured("ROLE_PROJECT_EDIT")
+    @GetMapping("/edit/{id}")
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("projects/create");
 

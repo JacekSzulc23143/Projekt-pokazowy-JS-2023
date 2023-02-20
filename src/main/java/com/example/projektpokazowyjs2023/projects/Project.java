@@ -11,7 +11,7 @@ public class Project {
 
     @Id
     @GeneratedValue
-    private Long id; // id generowane automatycznie
+    Long id; // id generowane automatycznie
 
     private String name;
 
