@@ -3,6 +3,8 @@ package com.example.projektpokazowyjs2023.issues;
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,6 +39,21 @@ public class IssueController {
         modelAndView.addObject("projects", projectRepository.findAll());
 
         return modelAndView;
+    }
+
+    // wysłanie formularza do akcji save
+    @PostMapping("/save")
+    String save(@ModelAttribute Issue issue) {
+
+        boolean isNew = issue.getId() == null; // sprawdza czy nowe zgłoszenie
+
+        issueRepository.save(issue);
+
+        if (isNew) { // podejmuje decyzje dokąd przenieść
+            return "redirect:/issues";
+        } else {
+            return "redirect:/issues/edit/" + issue.getId();
+        }
     }
 
 }
