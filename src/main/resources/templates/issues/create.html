@@ -99,7 +99,7 @@
                 <label for="demo2" class="form-label" th:text="#{problem.priority}"></label>
             </div>
             <div class="col-2">
-                <select name="demo" id="demo2" class="form-control" th:field="*{priority}">
+                <select name="demo2" id="demo2" class="form-control" th:field="*{priority}">
                     <option
                             th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
                             th:value="${issuePriority}" th:text="${issuePriority}"
@@ -114,7 +114,7 @@
                 <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
             </div>
             <div class="col-2">
-                <select name="demo" id="demo3" class="form-control" th:field="*{state}">
+                <select name="demo3" id="demo3" class="form-control" th:field="*{state}">
                     <option
                             th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
                             th:value="${issueState}" th:text="${issueState}"

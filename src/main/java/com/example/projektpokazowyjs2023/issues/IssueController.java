@@ -2,10 +2,7 @@ package com.example.projektpokazowyjs2023.issues;
 
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -35,6 +32,20 @@ public class IssueController {
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
         Issue issue = new Issue();
+        modelAndView.addObject("issue", issue);
+        modelAndView.addObject("projects", projectRepository.findAll());
+
+        return modelAndView;
+    }
+
+    // edycja formularza zgłoszeń
+    // TODO: @Secured("ROLE_PROJECT_EDIT")
+    @GetMapping("/edit/{id}")
+    ModelAndView edit(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("issues/create");
+
+        Issue issue = issueRepository.findById(id).orElse(null);
+
         modelAndView.addObject("issue", issue);
         modelAndView.addObject("projects", projectRepository.findAll());
 
