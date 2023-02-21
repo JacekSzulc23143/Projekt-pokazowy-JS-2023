@@ -67,4 +67,19 @@ public class IssueController {
         }
     }
 
+    // usuwanie zgłoszenia
+    @GetMapping("/delete/{id}")
+    ModelAndView deleteIssue(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("issues/create");
+
+        Issue issue = issueRepository.findById(id).orElse(null);
+
+        issue.setEnabled(false);
+
+        issueRepository.delete(issue);
+
+        modelAndView.setViewName("redirect:/issues");
+
+        return modelAndView;
+    }
 }
