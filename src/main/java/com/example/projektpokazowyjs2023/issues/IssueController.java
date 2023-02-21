@@ -1,7 +1,9 @@
 package com.example.projektpokazowyjs2023.issues;
 
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,18 +55,30 @@ public class IssueController {
     }
 
     // wysłanie formularza do akcji save
+    // dostęp do błędów przez klasę BindingResult
     @PostMapping("/save")
-    String save(@ModelAttribute Issue issue) {
+    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult) {
+
+        ModelAndView modelAndView = new ModelAndView("issues/create");
+
+        // obsługa błędów
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("issue", issue);
+            modelAndView.addObject("projects", projectRepository.findAll());
+            return modelAndView;
+        }
 
         boolean isNew = issue.getId() == null; // sprawdza czy nowe zgłoszenie
 
         issueRepository.save(issue);
 
         if (isNew) { // podejmuje decyzje dokąd przenieść
-            return "redirect:/issues";
+            modelAndView.setViewName("redirect:/issues");
         } else {
-            return "redirect:/issues/edit/" + issue.getId();
+            modelAndView.setViewName("redirect:/issues/edit/" + issue.getId());
         }
+
+        return modelAndView;
     }
 
     // usuwanie zgłoszenia

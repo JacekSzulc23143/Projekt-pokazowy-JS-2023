@@ -1,6 +1,8 @@
 package com.example.projektpokazowyjs2023.projects;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,21 +54,32 @@ public class ProjectController {
     }
 
     // wysłanie formularza do akcji save
+    // dostęp do błędów przez klasę BindingResult
     /**
      * Dokumentacja -> https://spring.io/guides/gs/handling-form-submission/
      */
     @PostMapping("/save")
-    String save(@ModelAttribute Project project) {
+    ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult) {
+
+        ModelAndView modelAndView = new ModelAndView("projects/create");
+
+        // obsługa błędów
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("project", project);
+            return modelAndView;
+        }
 
         boolean isNew = project.getId() == null; // sprawdza czy nowy projekt
 
         projectRepository.save(project);
 
         if (isNew) { // podejmuje decyzje dokąd przenieść
-            return "redirect:/projects";
+            modelAndView.setViewName("redirect:/projects");
         } else {
-            return "redirect:/projects/edit/" + project.getId();
+            modelAndView.setViewName("redirect:/projects/edit/" + project.getId());
         }
+
+        return modelAndView;
     }
 
     // usuwanie projektu
