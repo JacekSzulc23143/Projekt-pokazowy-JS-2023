@@ -2,6 +2,8 @@ package com.example.projektpokazowyjs2023.issues;
 
 import com.example.projektpokazowyjs2023.projects.Project;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,10 +21,16 @@ public class Issue {
     @GeneratedValue
     private Long id; // id generowane automatycznie
 
+    @NotEmpty
+//    @Size(min = 5)
     private String name;
 
+    @NotEmpty
+//    @Size(min = 3)
     private String code;
 
+    @NotEmpty
+//    @Size(min = 10)
     private String description;
 
     private Date dateCreated = new Date();
@@ -35,6 +43,7 @@ public class Issue {
     @Column(nullable = false) // pole obowiązkowe
     @Enumerated(EnumType.STRING) // w bazie danych pojawi się wyraz zamiast nr
     private IssueType type = IssueType.BUG;
+
     // kolumna w tabelce z domyślnym priorytetem zgłoszenia
     @Column(nullable = false) // pole obowiązkowe
     @Enumerated(EnumType.STRING) // w bazie danych pojawi się wyraz zamiast nr

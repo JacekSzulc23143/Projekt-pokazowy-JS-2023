@@ -33,7 +33,14 @@
             </div>
 
             <div class="col-4">
-                <input type="text" placeholder="ABC" class="form-control" id="project-name" th:field="*{name}">
+                <input type="text" placeholder="ABC"
+                       th:class="'form-control ' + ${#fields.hasErrors('name') ? 'is-invalid' : ''}"
+                       id="project-name"
+                       th:field="*{name}">
+                <div class="form-text">
+                    <!--tekst na czerwono z błędami-->
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                </div>
             </div>
         </div>
 
@@ -44,7 +51,14 @@
             </div>
 
             <div class="col-2">
-                <input type="text" placeholder="ABC" class="form-control" id="project-code" th:field="*{code}">
+                <input type="text" placeholder="ABC"
+                       th:class="'form-control ' + ${#fields.hasErrors('code') ? 'is-invalid' : ''}"
+                       id="project-code"
+                       th:field="*{code}">
+                <div class="form-text">
+                    <!--tekst na czerwono z błędami-->
+                    <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></span>
+                </div>
             </div>
         </div>
 
@@ -57,9 +71,15 @@
             <div class="col-8">
                 <textarea
                         placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut elit in libero porttitor interdum."
-                        class="form-control" id="project-description" rows="10"
+                        th:class="'form-control ' + ${#fields.hasErrors('description') ? 'is-invalid' : ''}"
+                        id="project-description" rows="10"
                         th:field="*{description}">
                 </textarea>
+                <div class="form-text">
+                    <!--tekst na czerwono z błędami-->
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                          class="text-danger"></span>
+                </div>
             </div>
         </div>
 
