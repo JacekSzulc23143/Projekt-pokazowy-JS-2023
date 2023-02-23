@@ -14,13 +14,13 @@
         <h1 class="text-center" th:text="#{design.projectsList}"></h1>
 
         <!--Nowy projekt-->
-        <div>
+        <div class="py-3">
             <a th:href="@{/projects/create}" class="btn btn-success" th:text="#{design.create}"></a>
         </div>
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
-            <tr class="table-light">
+            <tr>
                 <!--Kod-->
                 <th th:text="#{common.code}"></th>
                 <!--Nazwa-->
