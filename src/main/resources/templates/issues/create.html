@@ -103,7 +103,8 @@
                     <select name="demo" id="demo" class="form-control" th:field="*{type}">
                         <option
                                 th:each="issueType : ${T(com.example.projektpokazowyjs2023.issues.IssueType).values()}"
-                                th:value="${issueType}" th:text="${issueType}"
+                                th:value="${issueType}"
+                                th:text="#{${'type.' + issueType.name()}}"
                         ></option>
                     </select>
                 </div>
@@ -118,7 +119,8 @@
                     <select name="demo2" id="demo2" class="form-control" th:field="*{priority}">
                         <option
                                 th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
-                                th:value="${issuePriority}" th:text="${issuePriority}"
+                                th:value="${issuePriority}"
+                                th:text="#{${'priority.' + issuePriority.name()}}"
                         ></option>
                     </select>
                 </div>
@@ -133,7 +135,8 @@
                     <select name="demo3" id="demo3" class="form-control" th:field="*{state}">
                         <option
                                 th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
-                                th:value="${issueState}" th:text="${issueState}"
+                                th:value="${issueState}"
+                                th:text="#{${'state.' + issueState.name()}}"
                         ></option>
                     </select>
                 </div>

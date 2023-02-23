@@ -55,5 +55,4 @@ public class Issue {
     private IssueState state = IssueState.OPEN;
 
     // TODO: kolumna w tabelce z domyślnym wykonawcą zgłoszenia
-    // TODO: tłumaczenia enumów
 }
