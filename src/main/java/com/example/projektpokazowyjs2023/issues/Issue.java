@@ -1,5 +1,6 @@
 package com.example.projektpokazowyjs2023.issues;
 
+import com.example.projektpokazowyjs2023.people.Person;
 import com.example.projektpokazowyjs2023.projects.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -33,11 +34,22 @@ public class Issue {
 //    @Size(min = 10)
     private String description;
 
+//    @Column(nullable = false) // pole obowiązkowe
     private Date dateCreated = new Date();
 
+//    @Column(nullable = false)
     private Date lastUpdate;
 
-    private Boolean enabled = true;
+//    @Column(nullable = false)
+    private Boolean enabled = true; // nowe zadanie domyślnie jest włączone
+
+//    @ManyToOne
+//    @JoinColumn(name = "creator_id", nullable = false)
+//    private Person creator; // twórca zgłoszenia
+//
+//    @ManyToOne
+//    @JoinColumn(name = "assignee_id")
+//    private Person assignee; // osoba która ma zadanie wykonać
 
     // kolumna w tabelce z domyślnym typem zgłoszenia
     @Column(nullable = false) // pole obowiązkowe

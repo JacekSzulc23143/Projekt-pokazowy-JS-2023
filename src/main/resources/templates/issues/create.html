@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="col-4">
-                    <input type="text" placeholder="BUG"
+                    <input type="text" placeholder="Bug"
                            th:class="'form-control ' + ${#fields.hasErrors('name') ? 'is-invalid' : ''}"
                            id="issue-name"
                            th:field="*{name}">
@@ -126,13 +126,29 @@
                 </div>
             </div>
 
+            <!--            &lt;!&ndash;Obsługa Enumu, wykonawcy zgłoszenia&ndash;&gt;-->
+            <!--            <div class="mb-3 row">-->
+            <!--                <div class="col-1">-->
+            <!--                    <label for="demo3" class="form-label" th:text="#{problem.contractor}"></label>-->
+            <!--                </div>-->
+            <!--                <div class="col-2">-->
+            <!--                    <select name="demo3" id="demo3" class="form-control" th:field="*{}">-->
+            <!--                        <option-->
+            <!--                                th:each="issueContractor : ${T(com.example.projektpokazowyjs2023.issues.IssueContractor).values()}"-->
+            <!--                                th:value="${issueContractor}"-->
+            <!--                                th:text="#{${'contractor.' + issueContractor.name()}}"-->
+            <!--                        ></option>-->
+            <!--                    </select>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
             <!--Obsługa Enumu, stanu zgłoszenia-->
             <div class="mb-3 row">
                 <div class="col-1">
-                    <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
+                    <label for="demo4" class="form-label" th:text="#{problem.state}"></label>
                 </div>
                 <div class="col-2">
-                    <select name="demo3" id="demo3" class="form-control" th:field="*{state}">
+                    <select name="demo4" id="demo4" class="form-control" th:field="*{state}">
                         <option
                                 th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
                                 th:value="${issueState}"
