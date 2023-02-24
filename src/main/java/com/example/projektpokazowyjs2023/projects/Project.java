@@ -25,10 +25,12 @@ public class Project {
 
     @NotEmpty
 //    @Size(min = 10)
+    @Column(columnDefinition = "TEXT") // dowolna liczba znaków tekstowych w polu tekstowym
     private String description;
 
+//    @Column(nullable = false)
     private Date dateCreated = new Date();
 
-    private Boolean enabled = true;
-
+//    @Column(nullable = false)
+    private Boolean enabled = true; // nowy projekt domyślnie jest włączony
 }
