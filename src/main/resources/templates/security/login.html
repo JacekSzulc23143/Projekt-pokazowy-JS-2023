@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{login.label}"/>
+</head>
+<body>
+<section layout:fragment="custom-content">
+    <div class="container">
+        <form th:action="@{/login}" method="post" class="login-form">
+
+            <!--Napis "Zaloguj się"-->
+            <h1 th:text="#{login.label}"/>
+            <div class="col-4">
+
+                <!--Komunikat "Poprawnie Cię wylogowaliśmy"-->
+                <div th:if="${param.logout}" class="alert alert-danger">
+                    <span th:text="#{login.loggedOut}"></span>
+                </div>
+
+                <!--Komunikat "Błędny login lub hasło"-->
+                <div th:if="${param.error}" class="alert alert-danger">
+                    <span th:text="#{login.error}"></span>
+                </div>
+
+                <!--Nazwa użytkownika-->
+                <div class="form-group">
+                    <label for="username"></label>
+                    <input id="username" type="text" name="username" class="form-control"
+                           th:placeholder="#{placeholder.username}"
+                           autofocus/>
+                </div>
+
+                <!--Hasło-->
+                <div class="form-group">
+                    <label for="password"></label>
+                    <input id="password" type="password" name="password" th:placeholder="#{placeholder.password}"
+                           class="form-control"/>
+                </div>
+            </div>
+
+            <!--Zaloguj się-->
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary" th:text="#{login.label}"></button>
+            </div>
+
+        </form>
+    </div>
+</section>
+</body>
+</html>

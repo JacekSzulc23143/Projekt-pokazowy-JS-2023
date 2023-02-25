@@ -18,6 +18,10 @@ public class Issue {
     @JoinColumn(name = "project_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
     private Project project;
 
+//    @ManyToOne(optional = false) // Ze strony Person do Project. Optional wymagana relacja.
+//    @JoinColumn(name = "contractor_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
+//    private Person contractor;
+
     @Id
     @GeneratedValue
     private Long id; // id generowane automatycznie
@@ -34,13 +38,13 @@ public class Issue {
 //    @Size(min = 10)
     private String description;
 
-//    @Column(nullable = false) // pole obowiązkowe
+    //    @Column(nullable = false) // pole obowiązkowe
     private Date dateCreated = new Date();
 
-//    @Column(nullable = false)
+    //    @Column(nullable = false)
     private Date lastUpdate;
 
-//    @Column(nullable = false)
+    //    @Column(nullable = false)
     private Boolean enabled = true; // nowe zadanie domyślnie jest włączone
 
 //    @ManyToOne
@@ -66,5 +70,4 @@ public class Issue {
     @Enumerated(EnumType.STRING) // w bazie danych pojawi się wyraz zamiast nr
     private IssueState state = IssueState.OPEN;
 
-    // TODO: kolumna w tabelce z domyślnym wykonawcą zgłoszenia
 }

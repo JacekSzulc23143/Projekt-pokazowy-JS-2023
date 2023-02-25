@@ -1,5 +1,4 @@
-package com.example.projektpokazowyjs2023.people;//package com.example.projektpokazowyjs2023.auth;
-
+package com.example.projektpokazowyjs2023.people;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,17 +16,17 @@ public class Person {
     private Long id;
 
     @NotEmpty
-//    @Size(min = 3)
+//    @Size(min = 5)
     @Column(nullable = false, unique = true)
     private String login;
 
     @NotEmpty
-//    @Size(min = 3)
+//    @Size(min = 5)
     @Column(nullable = false)
     private String password;
 
     @NotEmpty
-//    @Size(min = 3)
+//    @Size(min = 2)
     @Column(nullable = false)
     private String realName;
 

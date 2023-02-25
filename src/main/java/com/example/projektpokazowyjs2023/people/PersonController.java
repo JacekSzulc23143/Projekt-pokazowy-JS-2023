@@ -85,20 +85,6 @@ public class PersonController {
         return modelAndView;
     }
 
-//    @PostMapping("/save")
-//    String save(@ModelAttribute @Valid Person person, BindingResult bindingResult) {
-//
-//        boolean isNew = person.getId() == null; // sprawdza czy nowy użytkownik
-//
-//        personRepository.save(person);
-//
-//        if (isNew) { // podejmuje decyzje dokąd przenieść
-//            return "redirect:/person";
-//        } else {
-//            return "redirect:/person/edit/" + person.getId();
-//        }
-//    }
-
     // usuwanie użytkownika
     @GetMapping("/delete/{id}")
     ModelAndView deletePerson(@PathVariable Long id) {

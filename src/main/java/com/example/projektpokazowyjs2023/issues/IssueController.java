@@ -1,5 +1,6 @@
 package com.example.projektpokazowyjs2023.issues;
 
+import com.example.projektpokazowyjs2023.people.PersonRepository;
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,13 @@ public class IssueController {
 
     private final ProjectRepository projectRepository; // repozytorium projektów
     private final IssueRepository issueRepository; // repozytorium zgłoszeń
+    private final PersonRepository personRepository; // repozytorium użytkowników
 
-    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository) {
+    public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository,
+                           PersonRepository personRepository) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
+        this.personRepository = personRepository;
     }
 
     @GetMapping
@@ -36,6 +40,7 @@ public class IssueController {
         Issue issue = new Issue();
         modelAndView.addObject("issue", issue);
         modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("person", personRepository.findAll());
 
         return modelAndView;
     }
@@ -50,6 +55,7 @@ public class IssueController {
 
         modelAndView.addObject("issue", issue);
         modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("people", personRepository.findAll());
 
         return modelAndView;
     }
@@ -65,6 +71,7 @@ public class IssueController {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("issue", issue);
             modelAndView.addObject("projects", projectRepository.findAll());
+            modelAndView.addObject("people", personRepository.findAll());
             return modelAndView;
         }
 
