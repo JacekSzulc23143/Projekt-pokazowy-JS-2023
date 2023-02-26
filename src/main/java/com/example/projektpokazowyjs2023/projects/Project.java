@@ -28,9 +28,9 @@ public class Project {
     @Column(columnDefinition = "TEXT") // dowolna liczba znaków tekstowych w polu tekstowym
     private String description;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private Date dateCreated = new Date();
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private Boolean enabled = true; // nowy projekt domyślnie jest włączony
 }

@@ -37,21 +37,20 @@
                 </div>
             </div>
 
-            <!--TODO: selekt w formularzu z wyborem wykonawcy zgłoszenia-->
-<!--            &lt;!&ndash;Obsługa zgłoszenia&ndash;&gt;-->
-<!--            <div class="mb-3 row">-->
-<!--                <div class="col-1">-->
-<!--                    <label for="contractor" class="form-label" th:text="#{problem.contractor}"></label>-->
-<!--                </div>-->
-<!--                <div class="col-2">-->
-<!--                    <select id="contractor" class="form-control" th:field="*{contractor}">-->
-<!--                        <option th:each="contractor : ${people}"-->
-<!--                                th:value="${contractor.id}"-->
-<!--                                th:text="${contractor.login}">-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--Obsługa zgłoszenia-->
+            <div class="mb-3 row">
+                <div class="col-1">
+                    <label for="contractor" class="form-label" th:text="#{problem.contractor}"></label>
+                </div>
+                <div class="col-2">
+                    <select id="contractor" class="form-control" th:field="*{contractor}">
+                        <option th:each="contractor : ${people}"
+                                th:value="${contractor.id}"
+                                th:text="${contractor.login}">
+                        </option>
+                    </select>
+                </div>
+            </div>
 
             <!--Nazwa zgłoszenia-->
             <div class="mb-3 row">
