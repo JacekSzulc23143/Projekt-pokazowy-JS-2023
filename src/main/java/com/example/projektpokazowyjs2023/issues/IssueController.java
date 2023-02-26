@@ -40,7 +40,7 @@ public class IssueController {
         Issue issue = new Issue();
         modelAndView.addObject("issue", issue);
         modelAndView.addObject("projects", projectRepository.findAll());
-        modelAndView.addObject("person", personRepository.findAll());
+        modelAndView.addObject("people", personRepository.findAll());
 
         return modelAndView;
     }

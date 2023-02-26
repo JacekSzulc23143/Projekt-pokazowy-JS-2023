@@ -30,7 +30,11 @@ public class Person {
     @Column(nullable = false)
     private String realName;
 
+//    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private Boolean enabled = true;
 
 //    @ManyToMany(cascade = CascadeType.MERGE)
 //    @JoinTable(name = "person_authorities",
