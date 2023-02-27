@@ -13,7 +13,12 @@ public class IndexController {
     }
 
     @GetMapping("/contact")
-    public String contact() { // Strona kontaktowa, dostępna dla wszystkich "To ja Jacek student WSB"
+    public String contact() { // Strona kontaktowa "To ja Jacek student WSB"
         return "contact";
+    }
+
+    @GetMapping("/contact2")
+    public String contact2() { // Strona kontaktowa, dostępna dla wszystkich "To ja Jacek student WSB"
+        return "contact2";
     }
 }
