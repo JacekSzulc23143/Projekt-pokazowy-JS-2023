@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/people")
@@ -55,23 +56,27 @@ public class PersonController {
 
     // wysłanie formularza do akcji save
     // dostęp do błędów przez klasę BindingResult
+    // komunikaty przez klasę RedirectAttributes
     /**
      * Dokumentacja -> https://spring.io/guides/gs/handling-form-submission/
      */
     @PostMapping("/save")
-    ModelAndView save(@ModelAttribute @Valid Person person, BindingResult bindingResult) {
+    ModelAndView save(@ModelAttribute @Valid Person person, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("people/create");
 
         // obsługa błędów
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("person", person);
+            modelAndView.addObject("status", "error");
             return modelAndView;
         }
 
         boolean isNew = person.getId() == null; // sprawdza czy nowy użytkownik
 
         personRepository.save(person);
+
+        redirectAttrs.addFlashAttribute("status", "success");
 
         if (isNew) { // podejmuje decyzje dokąd przenieść
             modelAndView.setViewName("redirect:/people");
@@ -86,15 +91,18 @@ public class PersonController {
     }
 
     // usuwanie użytkownika
+    // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
-    ModelAndView deletePerson(@PathVariable Long id) {
+    ModelAndView deletePerson(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("people/create");
 
         Person person = personRepository.findById(id).orElse(null);
 
-//        person.setEnabled(false);
+        person.setEnabled(false);
 
         personRepository.delete(person);
+
+        redirectAttrs.addFlashAttribute("status", "success");
 
         modelAndView.setViewName("redirect:/people");
 

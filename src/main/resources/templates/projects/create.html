@@ -10,6 +10,12 @@
 <section layout:fragment="custom-content">
     <div class="container">
 
+        <!--Komunikaty dymkowe-->
+        <div class="col-4">
+            <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
+            <div class="alert alert-danger" th:if="${status == 'error'}" th:text="#{issue.error.message}"></div>
+        </div>
+
         <!--Nowy projekt-->
         <h1 th:if="${project.id == null}" th:text="#{design.create}"></h1>
 

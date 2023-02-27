@@ -13,6 +13,11 @@
         <!--Lista użytkowników-->
         <h1 class="text-center" th:text="#{people.peopleList}"></h1>
 
+        <!--Komunikaty dymkowe-->
+        <div class="col-4">
+            <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
+        </div>
+
         <!--Nowy użytkownik-->
         <div class="py-3">
             <a th:href="@{/people/create}" class="btn btn-success" th:text="#{people.create}"></a>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/issues")
@@ -62,8 +63,9 @@ public class IssueController {
 
     // wysłanie formularza do akcji save
     // dostęp do błędów przez klasę BindingResult
+    // komunikaty przez klasę RedirectAttributes
     @PostMapping("/save")
-    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult) {
+    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
@@ -72,6 +74,7 @@ public class IssueController {
             modelAndView.addObject("issue", issue);
             modelAndView.addObject("projects", projectRepository.findAll());
             modelAndView.addObject("people", personRepository.findAll());
+            modelAndView.addObject("status", "error");
             return modelAndView;
         }
 
@@ -79,18 +82,24 @@ public class IssueController {
 
         issueRepository.save(issue);
 
+        redirectAttrs.addFlashAttribute("status", "success");
+
         if (isNew) { // podejmuje decyzje dokąd przenieść
             modelAndView.setViewName("redirect:/issues");
         } else {
             modelAndView.setViewName("redirect:/issues/edit/" + issue.getId());
         }
 
+//        // zmień widok na:
+//        modelAndView.setViewName("redirect:/issues");
+
         return modelAndView;
     }
 
     // usuwanie zgłoszenia
+    // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
-    ModelAndView deleteIssue(@PathVariable Long id) {
+    ModelAndView deleteIssue(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
         Issue issue = issueRepository.findById(id).orElse(null);
@@ -98,6 +107,8 @@ public class IssueController {
         issue.setEnabled(false);
 
         issueRepository.delete(issue);
+
+        redirectAttrs.addFlashAttribute("status", "success");
 
         modelAndView.setViewName("redirect:/issues");
 

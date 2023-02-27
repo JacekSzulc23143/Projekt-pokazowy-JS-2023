@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/projects")
@@ -55,17 +56,19 @@ public class ProjectController {
 
     // wysłanie formularza do akcji save
     // dostęp do błędów przez klasę BindingResult
+    // komunikaty przez klasę RedirectAttributes
     /**
      * Dokumentacja -> https://spring.io/guides/gs/handling-form-submission/
      */
     @PostMapping("/save")
-    ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult) {
+    ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
         // obsługa błędów
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("project", project);
+            modelAndView.addObject("status", "error");
             return modelAndView;
         }
 
@@ -73,18 +76,24 @@ public class ProjectController {
 
         projectRepository.save(project);
 
+        redirectAttrs.addFlashAttribute("status", "success");
+
         if (isNew) { // podejmuje decyzje dokąd przenieść
             modelAndView.setViewName("redirect:/projects");
         } else {
             modelAndView.setViewName("redirect:/projects/edit/" + project.getId());
         }
 
+//        // zmień widok na:
+//        modelAndView.setViewName("redirect:/projects");
+
         return modelAndView;
     }
 
     // usuwanie projektu
+    // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
-    ModelAndView deleteProject(@PathVariable Long id) {
+    ModelAndView deleteProject(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
         Project project = projectRepository.findById(id).orElse(null);
@@ -92,6 +101,8 @@ public class ProjectController {
         project.setEnabled(false);
 
         projectRepository.delete(project);
+
+        redirectAttrs.addFlashAttribute("status", "success");
 
         modelAndView.setViewName("redirect:/projects");
 
