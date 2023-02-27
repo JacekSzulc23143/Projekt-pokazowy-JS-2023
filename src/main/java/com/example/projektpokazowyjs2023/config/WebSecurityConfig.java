@@ -18,7 +18,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/contact").permitAll() //1. Strona /contact będzie dostępna dla niezalogowanych
+                        .requestMatchers("/contact2").permitAll() //1. Strona /contact będzie dostępna dla
+                        // niezalogowanych
                         .requestMatchers("/images/**").permitAll()//2. przepuszcza obrazki
                         .anyRequest().authenticated() //3. Wszystkie pozostałe adresy będą zabezpieczone
                 )

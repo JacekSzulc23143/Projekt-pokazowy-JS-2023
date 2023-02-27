@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout2}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{footer.label}"/>
+</head>
+<body>
+<div th:fragment="footer">
+    <div class="container">
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a th:text="#{footer.contact}" href="contact2"
+                                        class="nav-link px-2 text-muted"></a></li>
+            </ul>
+            <p class="text-center text-muted">© 2023 JS</p>
+        </footer>
+    </div>
+</div>
+</body>
+</html>

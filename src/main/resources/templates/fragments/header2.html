@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout2}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{header.label}"/>
+</head>
+<body>
+<div th:fragment="header">
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none" href="/">
+                <svg class="bi me-2" height="32" width="40">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+                <span class="fs-4" th:text="#{application.name}"></span>
+            </a>
+        </header>
+    </div>
+</div>
+</body>
+</html>
