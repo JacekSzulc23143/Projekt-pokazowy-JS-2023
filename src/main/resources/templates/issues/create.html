@@ -10,13 +10,19 @@
 <section layout:fragment="custom-content">
     <div class="container">
 
+        <!--Komunikaty dymkowe-->
+        <div class="col-4">
+            <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
+            <div class="alert alert-danger" th:if="${status == 'error'}" th:text="#{issue.error.message}"></div>
+        </div>
+
         <!--Nowe zgłoszenie-->
         <h1 th:if="${issue.id == null}" th:text="#{problem.create}"></h1>
 
         <!--TODO: poprawić wyświetlanie kodu projektu za słowami Edycja zgłoszenia-->
         <!--Edycja zgłoszenia-->
-        <h1 th:if="${issue.id != null}" th:text="#{problem.issueEdition}"></h1>
-        <h1 th:text="${issue.code}"></h1>
+        <h1 th:if="${issue.id != null}" th:text="#{problem.issueEdition}">
+        </h1><h1 th:text="${issue.code}"></h1>
 
         <form th:action="@{/issues/save}" th:object="${issue}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
@@ -48,6 +54,54 @@
                                 th:value="${contractor.id}"
                                 th:text="${contractor.login}">
                         </option>
+                    </select>
+                </div>
+            </div>
+
+            <!--Obsługa Enumu, typu zgłoszenia-->
+            <div class="mb-3 row">
+                <div class="col-1">
+                    <label for="demo" class="form-label" th:text="#{problem.type}"></label>
+                </div>
+                <div class="col-2">
+                    <select name="demo" id="demo" class="form-control" th:field="*{type}">
+                        <option
+                                th:each="issueType : ${T(com.example.projektpokazowyjs2023.issues.IssueType).values()}"
+                                th:value="${issueType}"
+                                th:text="#{${'type.' + issueType.name()}}"
+                        ></option>
+                    </select>
+                </div>
+            </div>
+
+            <!--Obsługa Enumu, priorytetu zgłoszenia-->
+            <div class="mb-3 row">
+                <div class="col-1">
+                    <label for="demo2" class="form-label" th:text="#{problem.priority}"></label>
+                </div>
+                <div class="col-2">
+                    <select name="demo2" id="demo2" class="form-control" th:field="*{priority}">
+                        <option
+                                th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
+                                th:value="${issuePriority}"
+                                th:text="#{${'priority.' + issuePriority.name()}}"
+                        ></option>
+                    </select>
+                </div>
+            </div>
+
+            <!--Obsługa Enumu, stanu zgłoszenia-->
+            <div class="mb-3 row">
+                <div class="col-1">
+                    <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
+                </div>
+                <div class="col-2">
+                    <select name="demo3" id="demo3" class="form-control" th:field="*{state}">
+                        <option
+                                th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
+                                th:value="${issueState}"
+                                th:text="#{${'state.' + issueState.name()}}"
+                        ></option>
                     </select>
                 </div>
             </div>
@@ -106,54 +160,6 @@
                         <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                               class="text-danger"></span>
                     </div>
-                </div>
-            </div>
-
-            <!--Obsługa Enumu, typu zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="demo" class="form-label" th:text="#{problem.type}"></label>
-                </div>
-                <div class="col-2">
-                    <select name="demo" id="demo" class="form-control" th:field="*{type}">
-                        <option
-                                th:each="issueType : ${T(com.example.projektpokazowyjs2023.issues.IssueType).values()}"
-                                th:value="${issueType}"
-                                th:text="#{${'type.' + issueType.name()}}"
-                        ></option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Obsługa Enumu, priorytetu zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="demo2" class="form-label" th:text="#{problem.priority}"></label>
-                </div>
-                <div class="col-2">
-                    <select name="demo2" id="demo2" class="form-control" th:field="*{priority}">
-                        <option
-                                th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
-                                th:value="${issuePriority}"
-                                th:text="#{${'priority.' + issuePriority.name()}}"
-                        ></option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Obsługa Enumu, stanu zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
-                </div>
-                <div class="col-2">
-                    <select name="demo3" id="demo3" class="form-control" th:field="*{state}">
-                        <option
-                                th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
-                                th:value="${issueState}"
-                                th:text="#{${'state.' + issueState.name()}}"
-                        ></option>
-                    </select>
                 </div>
             </div>
 

@@ -13,6 +13,11 @@
         <!--Lista zgłoszeń-->
         <h1 class="text-center" th:text="#{problem.problemList}"></h1>
 
+        <!--Komunikaty dymkowe-->
+        <div class="col-4">
+            <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
+        </div>
+
         <!--Nowe zgłoszenie-->
         <div class="py-3">
             <a th:href="@{/issues/create}" class="btn btn-success" th:text="#{problem.create}"></a>
