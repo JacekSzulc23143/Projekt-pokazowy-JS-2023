@@ -18,6 +18,58 @@
             <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
         </div>
 
+        <!--Formularz z filtrami-->
+        <form th:action="@{/issues}" th:object="${filter}" class="row">
+
+            <!--Szukaj po nazwie projektu-->
+            <div class="col py-3">
+                <select th:field="*{project}"
+                        class="form-control">
+                    <option th:value="${null}" th:text="#{project.placeholder}"></option>
+                    // pierwsza opcja null
+                    <option th:each="project : ${projects}"
+                            th:value="${project.id}"
+                            th:text="${project.name}">
+                    </option>
+                    // w value wysyłam id projektu i wyświetlam jego nazwę
+                </select>
+            </div>
+
+            <!--Szukaj po stanie-->
+            <div class="col py-3">
+                <select th:field="*{state}"
+                        class="form-control ml-2">
+                    <option th:value="${null}" th:text="#{state.placeholder}"></option>
+                    <option th:each="state : ${states}"
+                            th:value="${state}"
+                            th:text="${#messages.msg('state.' + state)}">
+                    </option>
+                </select>
+            </div>
+
+            <!--Szukaj po wykonawcy-->
+            <div class="col py-3">
+                <select th:field="*{contractor}"
+                        class="form-control ml-2">
+                    <option th:value="${null}" th:text="#{contractor.placeholder}"></option>
+                    <option th:each="person : ${people}"
+                            th:value="${person.id}"
+                            th:text="${person.realName}">
+                    </option>
+                </select>
+            </div>
+
+            <!--Przycisk szukaj-->
+            <div class="col py-3">
+                <button type="submit" th:text="#{common.search}"
+                        class="btn btn-outline-info"></button>
+
+                <!--Przycisk wyczyść-->
+                <a th:href="@{/issues}" th:text="#{common.clear}" class="btn btn-outline-warning"></a>
+            </div>
+
+        </form>
+
         <!--Nowe zgłoszenie-->
         <div class="py-3">
             <a th:href="@{/issues/create}" class="btn btn-success" th:text="#{problem.create}"></a>
@@ -52,7 +104,8 @@
                 </td>
                 <!--Usuń-->
                 <td>
-                    <a th:if="${issue.id}" th:href="@{/issues/delete/{id}(id=${issue.id})}" class="btn btn-outline-danger"
+                    <a th:if="${issue.id}" th:href="@{/issues/delete/{id}(id=${issue.id})}"
+                       class="btn btn-outline-danger"
                        th:text="#{common.delete}">
                     </a>
                 </td>

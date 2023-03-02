@@ -3,6 +3,7 @@ package com.example.projektpokazowyjs2023.issues;
 import com.example.projektpokazowyjs2023.people.PersonRepository;
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +26,15 @@ public class IssueController {
     }
 
     @GetMapping
-    ModelAndView index() { // ModelAndView skrót, który pomaga pracować na zmiennych
+    ModelAndView index(@ModelAttribute IssueFilter filter) { // ModelAndView skrót, który pomaga pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("issues/index"); // referencja do pliku
 
-        modelAndView.addObject("issues", issueRepository.findAll()); // zwróci listę wszystkich zgłoszeń
+        modelAndView.addObject("issues", issueRepository.findAll(filter.buildQuery())); // zwróci listę wszystkich zgłoszeń
         // zapisanych w bazie danych
+        modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("states", IssueState.values());
+        modelAndView.addObject("people", personRepository.findAll());
+        modelAndView.addObject("filter", filter);
         return modelAndView;
     }
 
