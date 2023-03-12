@@ -7,4 +7,6 @@ spring.datasource.username=nazwa użytkownika bazy danych
 spring.datasource.password=hasło do bazy danych
 Nazwa użytkownika=user
 Hasło=password
+spring.mail.username=adres email
+spring.mail.password=hasło do emaila
 ```
