@@ -25,13 +25,11 @@
             <div class="col py-3">
                 <select th:field="*{project}"
                         class="form-control">
-                    <option th:value="${null}" th:text="#{project.placeholder}"></option>
-                    // pierwsza opcja null
+                    <option th:value="${null}" th:text="#{project.placeholder}"></option> // pierwsza opcja null
                     <option th:each="project : ${projects}"
                             th:value="${project.id}"
                             th:text="${project.name}">
-                    </option>
-                    // w value wysyłam id projektu i wyświetlam jego nazwę
+                    </option> // w value wysyłam id projektu i wyświetlam jego nazwę
                 </select>
             </div>
 

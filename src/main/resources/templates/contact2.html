@@ -14,10 +14,16 @@
             <!--Skontaktuj się ze mną-->
             <h3 th:text="#{contact.contact}"></h3>
 
+            <!--Komunikaty dymkowe-->
+            <div class="col-4">
+                <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{email.success.message}"></div>
+                <!--<div class="alert alert-danger" th:if="${status == 'error'}" th:text="#{email.error.message}"></div>-->
+            </div>
+
             <form class="mt-4" th:action="@{/mails2}" method="post" enctype="multipart/form-data">
 
                 <!--Odbiorca-->
-                <div class="row form-group">
+                <div class="row form-group py-3">
                     <div class="col-sm-1" th:text="#{email.recipient}"></div>
                     <div class="col-sm-5">
                         <span class="input-group-text" id="basic-addon1">jacekpa23143@gmail.com</span>
@@ -29,15 +35,15 @@
                 <div class="row form-group">
                     <div class="col-sm-1" th:text="#{email.subject}"></div>
                     <div class="col-sm-5">
-                        <input type="text" name="subject" class="form-control">
+                        <input type="text" name="subject" class="form-control" autofocus required>
                     </div>
                 </div>
 
                 <!--Treść-->
-                <div class="row form-group">
+                <div class="row form-group py-3">
                     <div class="col-sm-1" th:text="#{email.content}"></div>
                     <div class="col-sm-5">
-                        <textarea rows="10" name="content" class="form-control"></textarea>
+                        <textarea rows="10" name="content" class="form-control" required></textarea>
                     </div>
                 </div>
 
@@ -54,7 +60,7 @@
                     <button type="submit" class="btn btn-primary" th:text="#{common.send}"></button>
 
                     <!--Przycisk powrót-->
-                    <a th:href="@{/}" class="btn btn-secondary" th:text="#{common.return}"></a>
+                    <a th:href="@{/}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
                 </div>
 
             </form>

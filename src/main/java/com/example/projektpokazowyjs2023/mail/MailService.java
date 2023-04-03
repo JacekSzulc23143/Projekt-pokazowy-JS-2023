@@ -25,6 +25,7 @@ public class MailService {
             // załącznika do meila
 
             javaMailSender.send(mimeMessage);
+            System.out.println("Wysłanie emaila powiodło się!");
         } catch (Exception e) {
             System.out.println("Wysyłanie mejla nie powiodło się!");
         }
