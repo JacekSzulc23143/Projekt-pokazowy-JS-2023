@@ -108,12 +108,16 @@
             <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
 
             <!--Przycisk anuluj-->
-            <a th:href="@{/people}" class="btn btn-secondary" th:text="#{common.cancel}"></a>
+            <a th:if="${person.id}" th:href="@{../edit/{id}(id=${person.id})}" class="btn btn-secondary"
+               th:text="#{common.cancel}"></a>
 
             <!--Przycisk usuń-->
             <a th:if="${person.id}" th:href="@{../delete/{id}(id=${person.id})}" class="btn btn-danger"
                th:text="#{common.delete}">
             </a>
+
+            <!--Przycisk powrotu-->
+            <a th:href="@{/people}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
         </form>
     </div>
 </section>
