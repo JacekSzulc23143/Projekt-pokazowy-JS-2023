@@ -1,6 +1,7 @@
 package com.example.projektpokazowyjs2023.projects;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +20,10 @@ public class ProjectController {
 
     // TODO: @Secured("ROLE_PROJECTS_TAB")
     @GetMapping
-    ModelAndView index() { // ModelAndView skrót, który pomaga pracować na zmiennych
+    ModelAndView index(Pageable pageable) { // ModelAndView skrót, który pomaga pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("projects/index"); // referencja do pliku
 
-        modelAndView.addObject("projects", projectRepository.findAll()); // zwróci listę wszystkich projektów
+        modelAndView.addObject("projects", projectRepository.findAll(pageable)); // zwróci listę wszystkich projektów
         // zapisanych w bazie danych
         return modelAndView;
     }

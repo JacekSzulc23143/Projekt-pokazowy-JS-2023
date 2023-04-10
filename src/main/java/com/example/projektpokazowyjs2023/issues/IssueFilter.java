@@ -22,6 +22,15 @@ public class IssueFilter {
     private Issue enabled;
 
 
+    // paginacja
+    public String toQueryString(Integer page) {
+        return "page=" + page +
+                (project != null ? "&project=" + project.getId() : "") +
+                (state != null ? "&state=" + state : "") +
+                (contractor != null ? "&contractor=" + contractor.getId() : "");
+    }
+
+    // filtrowanie
     private Specification<Issue> isEnabled(){
         return (root, query, builder) -> builder.equal(root.get("enabled"), true);
     }
@@ -55,5 +64,4 @@ public class IssueFilter {
 
         return spec;
     }
-
 }

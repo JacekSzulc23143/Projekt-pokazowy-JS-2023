@@ -24,7 +24,7 @@
             <!--Szukaj po nazwie projektu-->
             <div class="col py-3">
                 <select th:field="*{project}"
-                        class="form-control">
+                        class="form-select">
                     <option th:value="${null}" th:text="#{project.placeholder}"></option> // pierwsza opcja null
                     <option th:each="project : ${projects}"
                             th:value="${project.id}"
@@ -36,7 +36,7 @@
             <!--Szukaj po stanie-->
             <div class="col py-3">
                 <select th:field="*{state}"
-                        class="form-control ml-2">
+                        class="form-select ml-2">
                     <option th:value="${null}" th:text="#{state.placeholder}"></option>
                     <option th:each="state : ${states}"
                             th:value="${state}"
@@ -48,7 +48,7 @@
             <!--Szukaj po wykonawcy-->
             <div class="col py-3">
                 <select th:field="*{contractor}"
-                        class="form-control ml-2">
+                        class="form-select ml-2">
                     <option th:value="${null}" th:text="#{contractor.placeholder}"></option>
                     <option th:each="person : ${people}"
                             th:value="${person.id}"
@@ -110,6 +110,38 @@
             </tr>
             </tbody>
         </table>
+
+        <!--paginacja-->
+        <div class="row">
+            <ul th:if="${issues.totalPages}" class="pagination justify-content-center">
+
+                <!--strzałka w lewo-->
+                <li th:if="${issues.number != 0}" class="page-item">
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number - 1)}}"
+                       th:class="page-link">
+                        <!--ikona kąt w lewo-->
+                        <i class="fa-solid fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <!--logika paginacji-->
+                <li th:each="pageNumber : ${#numbers.sequence(T(java.lang.Math).max(issues.number - 3, 0), T(java.lang.Math).min(issues.number + 3, issues.totalPages - 1))}"
+                    th:class="${'page-item ' + ((pageNumber == issues.number) ? 'active' : '')}">
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(pageNumber)}}"
+                       th:text="${pageNumber + 1}"
+                       th:class="page-link"></a>
+                </li>
+
+                <!--strzałka w prawo-->
+                <li th:if="${issues.number != (issues.totalPages - 1)}" class="page-item">
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number + 1)}}"
+                       th:class="page-link">
+                        <!--ikona kąt w prawo-->
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </section>
 </body>
