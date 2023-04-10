@@ -57,6 +57,38 @@
             </tr>
             </tbody>
         </table>
+
+        <!--paginacja-->
+        <div class="row">
+            <ul th:if="${projects.totalPages}" class="pagination justify-content-center">
+
+                <!--strzałka w lewo-->
+                <li th:if="${projects.number != 0}" class="page-item">
+                    <a th:href="@{'/projects?page=' + ${projects.number - 1}}"
+                       th:class="page-link">
+                        <!--ikona kąt w lewo-->
+                        <i class="fa-solid fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <!--logika paginacji-->
+                <li th:each="pageNumber : ${#numbers.sequence(T(java.lang.Math).max(projects.number - 3, 0), T(java.lang.Math).min(projects.number + 3, projects.totalPages - 1))}"
+                    th:class="${'page-item ' + ((pageNumber == projects.number) ? 'active' : '')}">
+                    <a th:href="@{'/projects?page=' + ${pageNumber}}"
+                       th:text="${pageNumber + 1}"
+                       class="page-link"></a>
+                </li>
+
+                <!--strzałka w prawo-->
+                <li th:if="${projects.number != (projects.totalPages - 1)}" class="page-item">
+                    <a th:href="@{'/projects?page=' + ${projects.number + 1}}"
+                       th:class="page-link">
+                        <!--ikona kąt w prawo-->
+                        <i class="fa-solid fa-angle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </section>
 </body>

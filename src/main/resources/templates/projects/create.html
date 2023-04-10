@@ -19,17 +19,15 @@
         <!--Nowy projekt-->
         <h1 th:if="${project.id == null}" th:text="#{design.create}"></h1>
 
-        <!--TODO: poprawić wyświetlanie kodu projektu za słowami Edycja projektu-->
         <!--Edycja projektu-->
-        <h1 th:if="${project.id != null}" th:text="#{design.projectEdition}"></h1>
-        <h1 th:text="${project.code}"></h1>
+        <h1 th:if="${project.id != null}" th:text="|#{design.projectEdition} ${project.code}|"></h1>
 
         <form th:action="@{/projects/save}" th:object="${project}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
             <!--Nazwa-->
-            <div class="mb-3 row">
+            <div class="mb-3 row mt-3">
                 <div class="col-1">
                     <label for="project-name" class="form-label" th:text="#{common.name}"></label>
                 </div>

@@ -19,17 +19,15 @@
         <!--Nowy użytkownik-->
         <h1 th:if="${person.id == null}" th:text="#{people.create}"></h1>
 
-        <!--TODO: poprawić wyświetlanie kodu projektu za słowami Edycja projektu-->
         <!--Edycja użytkownika-->
-        <h1 th:if="${person.id != null}" th:text="#{people.peopleEdition}"></h1>
-        <h1 th:text="${person.login}"></h1>
+        <h1 th:if="${person.id != null}" th:text="|#{people.peopleEdition} ${person.login}|"></h1>
 
         <form th:action="@{/people/save}" th:object="${person}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
             <!--Nazwa użytkownika-->
-            <div class="mb-3 row">
+            <div class="mb-3 row mt-3">
                 <div class="col-1">
                     <label for="person-login" class="form-label" th:text="#{common.login}"></label>
                 </div>
