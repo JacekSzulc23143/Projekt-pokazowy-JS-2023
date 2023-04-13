@@ -20,11 +20,13 @@ public class PersonController {
 
     // TODO: @Secured("ROLE_PROJECTS_TAB")
     @GetMapping
-    ModelAndView index(Pageable pageable) { // ModelAndView skrót, który pomaga pracować na zmiennych
+    ModelAndView index(@ModelAttribute PersonFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
+        // pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("people/index"); // referencja do pliku
 
         modelAndView.addObject("person", personRepository.findAll(pageable)); // zwróci listę wszystkich użytkowników
         // zapisanych w bazie danych
+        modelAndView.addObject("filter", filter);
         return modelAndView;
     }
 

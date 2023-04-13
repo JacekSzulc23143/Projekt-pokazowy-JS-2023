@@ -20,11 +20,13 @@ public class ProjectController {
 
     // TODO: @Secured("ROLE_PROJECTS_TAB")
     @GetMapping
-    ModelAndView index(Pageable pageable) { // ModelAndView skrót, który pomaga pracować na zmiennych
+    ModelAndView index(@ModelAttribute ProjectFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
+        // pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("projects/index"); // referencja do pliku
 
         modelAndView.addObject("projects", projectRepository.findAll(pageable)); // zwróci listę wszystkich projektów
         // zapisanych w bazie danych
+        modelAndView.addObject("filter", filter);
         return modelAndView;
     }
 

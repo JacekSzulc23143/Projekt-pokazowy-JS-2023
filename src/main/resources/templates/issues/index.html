@@ -66,6 +66,18 @@
                 <a th:href="@{/issues}" th:text="#{common.clear}" class="btn btn-outline-warning"></a>
             </div>
 
+            <!--sortowanie - strzałki-->
+            <div class="row py-3">
+                <span th:text="#{sort.order}"></span>
+                <span th:with="sortingDir=${issues.sort.getOrderFor('name') != null ? issues.sort.getOrderFor('name').direction.toString() : null }">
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number, filter.findNextSorting(issues.sort))}}">
+                        <i th:if="${sortingDir == null}" class="fa-solid fa-sort fa-xl"></i>
+                        <i th:if="${sortingDir == 'ASC'}" class="fa-solid fa-sort-up fa-xl"></i>
+                        <i th:if="${sortingDir == 'DESC'}" class="fa-solid fa-sort-down fa-xl"></i>
+                    </a>
+                </span>
+            </div>
+
         </form>
 
         <!--Nowe zgłoszenie-->
@@ -111,30 +123,30 @@
             </tbody>
         </table>
 
-        <!--paginacja-->
+        <!--paginacja i sortowanie-->
         <div class="row">
             <ul th:if="${issues.totalPages}" class="pagination justify-content-center">
 
                 <!--strzałka w lewo-->
                 <li th:if="${issues.number != 0}" class="page-item">
-                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number - 1)}}"
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number - 1, issues.sort)}}"
                        th:class="page-link">
                         <!--ikona kąt w lewo-->
                         <i class="fa-solid fa-angle-left"></i>
                     </a>
                 </li>
 
-                <!--logika paginacji-->
+                <!--logika paginacji i sortowania-->
                 <li th:each="pageNumber : ${#numbers.sequence(T(java.lang.Math).max(issues.number - 3, 0), T(java.lang.Math).min(issues.number + 3, issues.totalPages - 1))}"
                     th:class="${'page-item ' + ((pageNumber == issues.number) ? 'active' : '')}">
-                    <a th:href="@{'/issues?' + ${filter.toQueryString(pageNumber)}}"
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(pageNumber, issues.sort)}}"
                        th:text="${pageNumber + 1}"
                        th:class="page-link"></a>
                 </li>
 
                 <!--strzałka w prawo-->
                 <li th:if="${issues.number != (issues.totalPages - 1)}" class="page-item">
-                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number + 1)}}"
+                    <a th:href="@{'/issues?' + ${filter.toQueryString(issues.number + 1, issues.sort)}}"
                        th:class="page-link">
                         <!--ikona kąt w prawo-->
                         <i class="fa-solid fa-angle-right"></i>

@@ -18,6 +18,19 @@
             <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
         </div>
 
+        <!--sortowanie - strzałki-->
+        <div class="row py-3">
+            <span th:text="#{sort.order}"></span>
+            <span
+                    th:with="sortingDir=${projects.sort.getOrderFor('name') != null ? projects.sort.getOrderFor('name').direction.toString() : null }">
+                    <a th:href="@{'/projects?' + ${filter.toQueryString(projects.number, filter.findNextSorting(projects.sort))}}">
+                        <i th:if="${sortingDir == null}" class="fa-solid fa-sort fa-xl"></i>
+                        <i th:if="${sortingDir == 'ASC'}" class="fa-solid fa-sort-up fa-xl"></i>
+                        <i th:if="${sortingDir == 'DESC'}" class="fa-solid fa-sort-down fa-xl"></i>
+                    </a>
+                </span>
+        </div>
+
         <!--Nowy projekt-->
         <div class="py-3">
             <a th:href="@{/projects/create}" class="btn btn-success" th:text="#{design.create}"></a>
@@ -58,30 +71,30 @@
             </tbody>
         </table>
 
-        <!--paginacja-->
+        <!--paginacja i sortowanie-->
         <div class="row">
             <ul th:if="${projects.totalPages}" class="pagination justify-content-center">
 
                 <!--strzałka w lewo-->
                 <li th:if="${projects.number != 0}" class="page-item">
-                    <a th:href="@{'/projects?page=' + ${projects.number - 1}}"
+                    <a th:href="@{'/projects?' + ${filter.toQueryString(projects.number - 1, projects.sort)}}"
                        th:class="page-link">
                         <!--ikona kąt w lewo-->
                         <i class="fa-solid fa-angle-left"></i>
                     </a>
                 </li>
 
-                <!--logika paginacji-->
+                <!--logika paginacji i sortowania-->
                 <li th:each="pageNumber : ${#numbers.sequence(T(java.lang.Math).max(projects.number - 3, 0), T(java.lang.Math).min(projects.number + 3, projects.totalPages - 1))}"
                     th:class="${'page-item ' + ((pageNumber == projects.number) ? 'active' : '')}">
-                    <a th:href="@{'/projects?page=' + ${pageNumber}}"
+                    <a th:href="@{'/projects?' + ${filter.toQueryString(pageNumber, projects.sort)}}"
                        th:text="${pageNumber + 1}"
                        class="page-link"></a>
                 </li>
 
                 <!--strzałka w prawo-->
                 <li th:if="${projects.number != (projects.totalPages - 1)}" class="page-item">
-                    <a th:href="@{'/projects?page=' + ${projects.number + 1}}"
+                    <a th:href="@{'/projects?' + ${filter.toQueryString(projects.number + 1, projects.sort)}}"
                        th:class="page-link">
                         <!--ikona kąt w prawo-->
                         <i class="fa-solid fa-angle-right"></i>
