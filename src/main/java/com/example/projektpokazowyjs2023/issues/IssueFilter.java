@@ -5,6 +5,7 @@ import com.example.projektpokazowyjs2023.projects.Project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 // Klasa którą przekazujemy z widoku do kontrolera i z kontrolera do widoku
@@ -21,14 +22,6 @@ public class IssueFilter {
 
     private Issue enabled;
 
-
-    // paginacja
-    public String toQueryString(Integer page) {
-        return "page=" + page +
-                (project != null ? "&project=" + project.getId() : "") +
-                (state != null ? "&state=" + state : "") +
-                (contractor != null ? "&contractor=" + contractor.getId() : "");
-    }
 
     // filtrowanie
     private Specification<Issue> isEnabled(){
@@ -63,5 +56,39 @@ public class IssueFilter {
         }
 
         return spec;
+    }
+
+    // paginacja i sortowanie
+    public String toQueryString(Integer page, Sort sort) {
+        return "page=" + page +
+                "&sort=" + toSortString(sort) +
+                (project != null ? "&project=" + project.getId() : "") +
+                (state != null ? "&state=" + state : "") +
+                (contractor != null ? "&contractor=" + contractor.getId() : "");
+//                (enabled != null ? "&enabled=" + enabled : "");
+    }
+
+    // metoda do sortowania
+    public String toSortString(Sort sort) {
+        Sort.Order order = sort.getOrderFor("name");
+        String sortString = "";
+        if (order != null) {
+            sortString += "name," + order.getDirection();
+        }
+
+        return sortString;
+    }
+
+    // metoda - kierunek sortowania
+    public Sort findNextSorting(Sort currentSorting) {
+        Sort.Direction currentDirection = currentSorting.getOrderFor("name") != null ? currentSorting.getOrderFor("name").getDirection() : null;
+
+        if (currentDirection == null) {
+            return Sort.by("name").ascending();
+        } else if (currentDirection.isAscending()) {
+            return Sort.by("name").descending();
+        } else {
+            return Sort.unsorted();
+        }
     }
 }

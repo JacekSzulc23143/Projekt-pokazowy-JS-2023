@@ -18,6 +18,19 @@
             <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
         </div>
 
+        <!--sortowanie - strzałki-->
+        <div class="row py-3">
+            <span th:text="#{sort.order}"></span>
+            <span
+                    th:with="sortingDir=${person.sort.getOrderFor('realName') != null ? person.sort.getOrderFor('realName').direction.toString() : null }">
+                    <a th:href="@{'/people?' + ${filter.toQueryString(person.number, filter.findNextSorting(person.sort))}}">
+                        <i th:if="${sortingDir == null}" class="fa-solid fa-sort fa-xl"></i>
+                        <i th:if="${sortingDir == 'ASC'}" class="fa-solid fa-sort-up fa-xl"></i>
+                        <i th:if="${sortingDir == 'DESC'}" class="fa-solid fa-sort-down fa-xl"></i>
+                    </a>
+                </span>
+        </div>
+
         <!--Nowy użytkownik-->
         <div class="py-3">
             <a th:href="@{/people/create}" class="btn btn-success" th:text="#{people.create}"></a>
@@ -58,30 +71,30 @@
             </tbody>
         </table>
 
-        <!--paginacja-->
+        <!--paginacja i sortowanie-->
         <div class="row">
             <ul th:if="${person.totalPages}" class="pagination justify-content-center">
 
                 <!--strzałka w lewo-->
                 <li th:if="${person.number != 0}" class="page-item">
-                    <a th:href="@{'/people?page=' + ${person.number - 1}}"
+                    <a th:href="@{'/people?' + ${filter.toQueryString(person.number - 1, person.sort)}}"
                        th:class="page-link">
                         <!--ikona kąt w lewo-->
                         <i class="fa-solid fa-angle-left"></i>
                     </a>
                 </li>
 
-                <!--logika paginacji-->
+                <!--logika paginacji i sortowania-->
                 <li th:each="pageNumber : ${#numbers.sequence(T(java.lang.Math).max(person.number - 3, 0), T(java.lang.Math).min(person.number + 3, person.totalPages - 1))}"
                     th:class="${'page-item ' + ((pageNumber == person.number) ? 'active' : '')}">
-                    <a th:href="@{'/people?page=' + ${pageNumber}}"
+                    <a th:href="@{'/people?' + ${filter.toQueryString(pageNumber, person.sort)}}"
                        th:text="${pageNumber + 1}"
                        class="page-link"></a>
                 </li>
 
                 <!--strzałka w prawo-->
                 <li th:if="${person.number != (person.totalPages - 1)}" class="page-item">
-                    <a th:href="@{'/people?page=' + ${person.number + 1}}"
+                    <a th:href="@{'/people?' + ${filter.toQueryString(person.number + 1, person.sort)}}"
                        th:class="page-link">
                         <!--ikona kąt w prawo-->
                         <i class="fa-solid fa-angle-right"></i>
