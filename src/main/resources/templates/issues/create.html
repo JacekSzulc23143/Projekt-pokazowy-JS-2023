@@ -26,134 +26,141 @@
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
-            <!--Obsługa projektu-->
             <div class="mb-3 row mt-3">
-                <div class="col-1">
-                    <label for="project" class="form-label" th:text="#{problem.project}"></label>
-                </div>
-                <div class="col-2">
-                    <select id="project" class="form-select" th:field="*{project}" autofocus>
-                        <option th:each="project : ${projects}"
-                                th:value="${project.id}"
-                                th:text="${project.code}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Obsługa wykonawcy zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="contractor" class="form-label" th:text="#{problem.contractor}"></label>
-                </div>
-                <div class="col-2">
-                    <select id="contractor" class="form-select" th:field="*{contractor}">
-                        <option th:each="contractor : ${people}"
-                                th:value="${contractor.id}"
-                                th:text="${contractor.login}">
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Obsługa Enumu, typu zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="demo" class="form-label" th:text="#{problem.type}"></label>
-                </div>
-                <div class="col-2">
-                    <select name="demo" id="demo" class="form-select" th:field="*{type}">
-                        <option
-                                th:each="issueType : ${T(com.example.projektpokazowyjs2023.issues.IssueType).values()}"
-                                th:value="${issueType}"
-                                th:text="#{${'type.' + issueType.name()}}"
-                        ></option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Obsługa Enumu, priorytetu zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="demo2" class="form-label" th:text="#{problem.priority}"></label>
-                </div>
-                <div class="col-2">
-                    <select name="demo2" id="demo2" class="form-select" th:field="*{priority}">
-                        <option
-                                th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
-                                th:value="${issuePriority}"
-                                th:text="#{${'priority.' + issuePriority.name()}}"
-                        ></option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Obsługa Enumu, stanu zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
-                </div>
-                <div class="col-2">
-                    <select name="demo3" id="demo3" class="form-select" th:field="*{state}">
-                        <option
-                                th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
-                                th:value="${issueState}"
-                                th:text="#{${'state.' + issueState.name()}}"
-                        ></option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Nazwa zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="issue-name" class="form-label" th:text="#{common.name}"></label>
-                </div>
                 <div class="col-4">
-                    <input type="text" placeholder="Bug"
-                           th:class="'form-control ' + ${#fields.hasErrors('name') ? 'is-invalid' : ''}"
-                           id="issue-name"
-                           th:field="*{name}">
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                    <!--Obsługa projektu-->
+                    <div class="mb-3 row">
+                        <div class="col-4">
+                            <label for="project" class="form-label" th:text="#{problem.project}"></label>
+                        </div>
+                        <div class="col">
+                            <select id="project" class="form-select" th:field="*{project}" autofocus>
+                                <option th:each="project : ${projects}"
+                                        th:value="${project.id}"
+                                        th:text="${project.code}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Obsługa wykonawcy zgłoszenia-->
+                    <div class="mb-3 row">
+                        <div class="col-4">
+                            <label for="contractor" class="form-label" th:text="#{problem.contractor}"></label>
+                        </div>
+                        <div class="col">
+                            <select id="contractor" class="form-select" th:field="*{contractor}">
+                                <option th:each="contractor : ${people}"
+                                        th:value="${contractor.id}"
+                                        th:text="${contractor.login}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Obsługa Enumu, typu zgłoszenia-->
+                    <div class="mb-3 row">
+                        <div class="col-4">
+                            <label for="demo" class="form-label" th:text="#{problem.type}"></label>
+                        </div>
+                        <div class="col">
+                            <select name="demo" id="demo" class="form-select" th:field="*{type}">
+                                <option
+                                        th:each="issueType : ${T(com.example.projektpokazowyjs2023.issues.IssueType).values()}"
+                                        th:value="${issueType}"
+                                        th:text="#{${'type.' + issueType.name()}}"
+                                ></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Obsługa Enumu, priorytetu zgłoszenia-->
+                    <div class="mb-3 row">
+                        <div class="col-4">
+                            <label for="demo2" class="form-label" th:text="#{problem.priority}"></label>
+                        </div>
+                        <div class="col">
+                            <select name="demo2" id="demo2" class="form-select" th:field="*{priority}">
+                                <option
+                                        th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
+                                        th:value="${issuePriority}"
+                                        th:text="#{${'priority.' + issuePriority.name()}}"
+                                ></option>
+                                // 'priority.' (tłumaczenie) + nazwa zmiennej w pętli i po kropce nazwa enumu
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Obsługa Enumu, stanu zgłoszenia-->
+                    <div class="mb-3 row">
+                        <div class="col-4">
+                            <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
+                        </div>
+                        <div class="col">
+                            <select name="demo3" id="demo3" class="form-select" th:field="*{state}">
+                                <option
+                                        th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
+                                        th:value="${issueState}"
+                                        th:text="#{${'state.' + issueState.name()}}"
+                                ></option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--Kod zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="issue-code" class="form-label" th:text="#{common.code}"></label>
-                </div>
-                <div class="col-2">
-                    <input type="text" placeholder="BUG"
-                           th:class="'form-control ' + ${#fields.hasErrors('code') ? 'is-invalid' : ''}"
-                           id="issue-code"
-                           th:field="*{code}">
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!--Opis zgłoszenia-->
-            <div class="mb-3 row">
-                <div class="col-1">
-                    <label for="issue-description" class="form-label" th:text="#{common.description}"></label>
-                </div>
                 <div class="col-8">
-                <textarea
-                        placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut elit in libero porttitor interdum."
-                        th:class="'form-control ' + ${#fields.hasErrors('description') ? 'is-invalid' : ''}"
-                        id="issue-description" rows="10"
-                        th:field="*{description}">
-                </textarea>
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                              class="text-danger"></span>
+                    <div class="mb-3 row">
+                        <!--Kod zgłoszenia-->
+                        <div class="col-2">
+                            <label for="issue-code" class="form-label" th:text="#{common.code}"></label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" placeholder="BUG"
+                                   th:class="'form-control ' + ${#fields.hasErrors('code') ? 'is-invalid' : ''}"
+                                   id="issue-code"
+                                   th:field="*{code}">
+                            <div class="form-text">
+                                <!--tekst na czerwono z błędami-->
+                                <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}"
+                                      class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!--Nazwa zgłoszenia-->
+                        <div class="col-2">
+                            <label for="issue-name" class="form-label" th:text="#{common.name}"></label>
+                        </div>
+                        <div class="col">
+                            <input type="text" placeholder="Bug"
+                                   th:class="'form-control ' + ${#fields.hasErrors('name') ? 'is-invalid' : ''}"
+                                   id="issue-name"
+                                   th:field="*{name}">
+                            <div class="form-text">
+                                <!--tekst na czerwono z błędami-->
+                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                                      class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <!--Opis zgłoszenia-->
+                        <div class="col-2">
+                            <label for="issue-description" class="form-label" th:text="#{common.description}"></label>
+                        </div>
+                        <div class="col">
+                        <textarea
+                                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut elit in libero porttitor interdum."
+                                th:class="'form-control ' + ${#fields.hasErrors('description') ? 'is-invalid' : ''}"
+                                id="issue-description" rows="8"
+                                th:field="*{description}">
+                        </textarea>
+                            <div class="form-text">
+                                <!--tekst na czerwono z błędami-->
+                                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                                      class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
