@@ -40,7 +40,7 @@
             <thead>
             <tr>
                 <!--Nazwa użytkownika-->
-                <th th:text="#{common.login}"></th>
+                <th th:text="#{common.username}"></th>
                 <!--Imię-->
                 <th th:text="#{common.realName}"></th>
                 <!--Edycja-->
@@ -53,7 +53,7 @@
             <tbody>
             <!--wyświetli w pętli wszystkich użytkowników-->
             <tr th:each="per: ${person}">
-                <td th:text="${per.login}"></td>
+                <td th:text="${per.username}"></td>
                 <td th:text="${per.realName}"></td>
                 <!--Edytuj-->
                 <td>

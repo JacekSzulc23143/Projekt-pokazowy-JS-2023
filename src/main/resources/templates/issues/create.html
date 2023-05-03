@@ -52,7 +52,7 @@
                             <select id="contractor" class="form-select" th:field="*{contractor}">
                                 <option th:each="contractor : ${people}"
                                         th:value="${contractor.id}"
-                                        th:text="${contractor.login}">
+                                        th:text="${contractor.username}">
                                 </option>
                             </select>
                         </div>

@@ -1,11 +1,11 @@
 package com.example.projektpokazowyjs2023.people;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.projektpokazowyjs2023.authorities.Authority;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,7 +18,7 @@ public class Person {
     @NotEmpty
 //    @Size(min = 5)
     @Column(nullable = false, unique = true)
-    private String login;
+    private String username;
 
     @NotEmpty
 //    @Size(min = 5)
@@ -27,20 +27,52 @@ public class Person {
 
     @NotEmpty
 //    @Size(min = 2)
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String realName;
 
-//    @Column(nullable = false, unique = true)
+    //    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
+//    @ColumnDefault(value = "true")
     private Boolean enabled = true;
 
-//    @ManyToMany(cascade = CascadeType.MERGE)
-//    @JoinTable(name = "person_authorities",
-//            joinColumns = @JoinColumn(name = "person_id"),
-//            inverseJoinColumns = @JoinColumn(name = "authority_id"))
-//
-//    private Set<Authority> authorities;
+    public Person(String username, String password, String realName, String email, Boolean enabled) {
+        this.username = username;
+        this.password = password;
+        this.realName = realName;
+        this.email = email;
+        this.enabled = enabled;
+    }
 
+    public Person() {
+    }
+
+    //    Powiązanie wiele-do-wielu między Person a Authority (wykład Pawła)
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "person_authorities",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+
+    Set<Authority> authorities;
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
