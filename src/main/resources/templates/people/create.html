@@ -20,7 +20,7 @@
         <h1 th:if="${person.id == null}" th:text="#{people.create}"></h1>
 
         <!--Edycja użytkownika-->
-        <h1 th:if="${person.id != null}" th:text="|#{people.peopleEdition} ${person.login}|"></h1>
+        <h1 th:if="${person.id != null}" th:text="|#{people.peopleEdition} ${person.username}|"></h1>
 
         <form th:action="@{/people/save}" th:object="${person}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
@@ -29,18 +29,18 @@
             <!--Nazwa użytkownika-->
             <div class="mb-3 row mt-3">
                 <div class="col-1">
-                    <label for="person-login" class="form-label" th:text="#{common.login}"></label>
+                    <label for="person-username" class="form-label" th:text="#{common.username}"></label>
                 </div>
 
                 <div class="col-4">
                     <input type="text" placeholder="Lorem"
-                           th:class="'form-control ' + ${#fields.hasErrors('login') ? 'is-invalid' : ''}"
-                           id="person-login"
-                           th:field="*{login}"
+                           th:class="'form-control ' + ${#fields.hasErrors('username') ? 'is-invalid' : ''}"
+                           id="person-username"
+                           th:field="*{username}"
                            autofocus>
                     <div class="form-text">
                         <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="text-danger"></span>
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
                     </div>
                 </div>
             </div>

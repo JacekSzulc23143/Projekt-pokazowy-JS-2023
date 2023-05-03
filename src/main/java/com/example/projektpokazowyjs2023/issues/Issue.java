@@ -36,6 +36,7 @@ public class Issue {
 
     @NotEmpty
 //    @Size(min = 10)
+    @Column(columnDefinition = "TEXT") // dowolna liczba znaków tekstowych w polu tekstowym
     private String description;
 
     @Column(nullable = false) // pole obowiązkowe
@@ -69,5 +70,4 @@ public class Issue {
     @Column(nullable = false) // pole obowiązkowe
     @Enumerated(EnumType.STRING) // w bazie danych pojawi się wyraz zamiast nr
     private IssueState state = IssueState.OPEN;
-
 }
