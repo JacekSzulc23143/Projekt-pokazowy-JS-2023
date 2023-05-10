@@ -2,6 +2,7 @@ package com.example.projektpokazowyjs2023.people;
 
 import com.example.projektpokazowyjs2023.authorities.Authority;
 import com.example.projektpokazowyjs2023.authorities.AuthorityRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,12 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Value("${my.admin.username}")
+    private String myAdminUsername;
+
+    @Value("${my.admin.password}")
+    private String myAdminPassword;
+
     public PersonService(AuthorityRepository authorityRepository, PersonRepository personRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.authorityRepository = authorityRepository;
         this.personRepository = personRepository;
@@ -25,17 +32,25 @@ public class PersonService {
     // Dodajmy do naszej aplikacji pierwszego użytkownika — administratora.
     public void prepareAdminUser() {
         // Nie twórzmy użytkownika, jeśli już taki istnieje
-        if (personRepository.findByUsername("admin").isPresent()) {
+        if (personRepository.findByUsername(myAdminUsername) != null) {
+            System.out.println("Użytkownik " + myAdminUsername + " już istnieje. Przerywamy tworzenie.");
             return;
         }
-        //TODO: Login i hasło weźmy ze zmiennej
-        Person person = new Person("admin", "1234", "Administrator", "admin@admin.pl", true);
 
-        // Hasło administratora zostanie zahashowane przed zapisaniem.
-        person.setPassword(bCryptPasswordEncoder.encode(person.getPassword()));
+        System.out.println("Tworzymy administratora: " + myAdminUsername + "...");
+
+        Person person = new Person(myAdminUsername, myAdminPassword, "Administrator");
 
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
         person.setAuthorities(new HashSet<>(authorities));
+
+        savePerson(person);
+    }
+
+    // Hash hasła
+    protected void savePerson(Person person) {
+        String hashedPassword = bCryptPasswordEncoder.encode(person.getPassword());
+        person.setPassword(hashedPassword);
 
         personRepository.save(person);
     }

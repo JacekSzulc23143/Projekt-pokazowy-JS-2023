@@ -13,9 +13,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class PersonController {
 
     private final PersonRepository personRepository;
+    private final PersonService personService;
 
-    public PersonController(PersonRepository personRepository) {
+    public PersonController(PersonRepository personRepository, PersonService personService) {
         this.personRepository = personRepository;
+        this.personService = personService;
     }
 
     // TODO: @Secured("ROLE_PROJECTS_TAB")
@@ -77,7 +79,7 @@ public class PersonController {
 
         boolean isNew = person.getId() == null; // sprawdza czy nowy użytkownik
 
-        personRepository.save(person);
+        personService.savePerson(person);
 
         redirectAttrs.addFlashAttribute("status", "success");
 

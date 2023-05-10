@@ -37,12 +37,10 @@ public class Person {
 //    @ColumnDefault(value = "true")
     private Boolean enabled = true;
 
-    public Person(String username, String password, String realName, String email, Boolean enabled) {
+    public Person(String username, String password, String realName) {
         this.username = username;
         this.password = password;
         this.realName = realName;
-        this.email = email;
-        this.enabled = enabled;
     }
 
     public Person() {
@@ -53,7 +51,6 @@ public class Person {
     @JoinTable(name = "person_authorities",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
-
     Set<Authority> authorities;
 
     public Set<Authority> getAuthorities() {
