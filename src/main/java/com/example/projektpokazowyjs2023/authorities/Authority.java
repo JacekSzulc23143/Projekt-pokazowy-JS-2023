@@ -1,9 +1,11 @@
 package com.example.projektpokazowyjs2023.authorities;//package com.example.projektpokazowyjs2023.auth;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 // Klasa reprezentująca uprawnienie
 @Entity
+@Data
 public class Authority {
 
     @Id

@@ -2,6 +2,7 @@ package com.example.projektpokazowyjs2023.projects;
 
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,6 @@ public class ProjectController {
         this.projectRepository = projectRepository;
     }
 
-    // TODO: @Secured("ROLE_PROJECTS_TAB")
     @GetMapping
     ModelAndView index(@ModelAttribute ProjectFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
         // pracować na zmiennych
@@ -32,6 +32,7 @@ public class ProjectController {
 
     // wyświetlenie formularza
     @GetMapping("/create")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
@@ -45,8 +46,8 @@ public class ProjectController {
     /**
      * https://www.baeldung.com/spring-boot-crud-thymeleaf
      */
-    // TODO: @Secured("ROLE_PROJECT_EDIT")
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
@@ -64,6 +65,7 @@ public class ProjectController {
      * Dokumentacja -> https://spring.io/guides/gs/handling-form-submission/
      */
     @PostMapping("/save")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("projects/create");
@@ -96,6 +98,7 @@ public class ProjectController {
     // usuwanie projektu
     // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView deleteProject(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
