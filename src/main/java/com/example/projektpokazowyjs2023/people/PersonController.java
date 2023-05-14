@@ -1,12 +1,17 @@
 package com.example.projektpokazowyjs2023.people;
 
+import com.example.projektpokazowyjs2023.authorities.Authority;
+import com.example.projektpokazowyjs2023.authorities.AuthorityRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
@@ -14,14 +19,16 @@ public class PersonController {
 
     private final PersonRepository personRepository;
     private final PersonService personService;
+    private final AuthorityRepository authorityRepository;
 
-    public PersonController(PersonRepository personRepository, PersonService personService) {
+    public PersonController(PersonRepository personRepository, PersonService personService, AuthorityRepository authorityRepository) {
         this.personRepository = personRepository;
         this.personService = personService;
+        this.authorityRepository = authorityRepository;
     }
 
-    // TODO: @Secured("ROLE_PROJECTS_TAB")
     @GetMapping
+    @Secured({"ROLE_USER_TAB", "ROLE_MANAGE_USERS"})
     ModelAndView index(@ModelAttribute PersonFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
         // pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("people/index"); // referencja do pliku
@@ -34,10 +41,14 @@ public class PersonController {
 
     // wyświetlenie formularza
     @GetMapping("/create")
+    @Secured("ROLE_MANAGE_USERS")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("people/create");
 
+        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+
         Person person = new Person();
+        modelAndView.addObject("authorities", authorities);
         modelAndView.addObject("person", person);
 
         return modelAndView;
@@ -47,13 +58,14 @@ public class PersonController {
     /**
      * https://www.baeldung.com/spring-boot-crud-thymeleaf
      */
-    // TODO: @Secured("ROLE_PROJECT_EDIT")
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_MANAGE_USERS")
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("people/create");
 
         Person person = personRepository.findById(id).orElse(null);
 
+        modelAndView.addObject("authorities", authorityRepository.findAll());
         modelAndView.addObject("person", person);
 
         return modelAndView;
@@ -66,12 +78,14 @@ public class PersonController {
      * Dokumentacja -> https://spring.io/guides/gs/handling-form-submission/
      */
     @PostMapping("/save")
+    @Secured("ROLE_MANAGE_USERS")
     ModelAndView save(@ModelAttribute @Valid Person person, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("people/create");
 
         // obsługa błędów
         if (bindingResult.hasErrors()) {
+            modelAndView.addObject("authorities", authorityRepository.findAll());
             modelAndView.addObject("person", person);
             modelAndView.addObject("status", "error");
             return modelAndView;
@@ -98,6 +112,7 @@ public class PersonController {
     // usuwanie użytkownika
     // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_MANAGE_USERS")
     ModelAndView deletePerson(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("people/create");
 
