@@ -2,7 +2,9 @@ package com.example.projektpokazowyjs2023.people;
 
 import com.example.projektpokazowyjs2023.authorities.Authority;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.util.Set;
@@ -30,7 +32,9 @@ public class Person {
     @Column(nullable = false, unique = true)
     private String realName;
 
-    //    @Column(nullable = false, unique = true)
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)

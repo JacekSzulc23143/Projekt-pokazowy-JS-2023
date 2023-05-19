@@ -90,14 +90,17 @@
                 </div>
 
                 <div class="col-4">
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">@</span>
                         <input type="email" placeholder="email@email.com"
-                               class="form-control" id="person-email" th:field="*{email}">
-                        <!--                        <div class="form-text">-->
-                        <!--                        &lt;!&ndash;tekst na czerwono z błędami&ndash;&gt;-->
-                        <!--                        <span th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}" class="text-danger"></span>-->
-                        <!--                        </div>-->
+                               th:class="'form-control ' + ${#fields.hasErrors('email') ? 'is-invalid' : ''}"
+                               id="person-email"
+                               th:field="*{email}">
+                    </div>
+                    <div class="form-text">
+                        <!--tekst na czerwono z błędami-->
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                              class="text-danger"></span>
                     </div>
                 </div>
             </div>
