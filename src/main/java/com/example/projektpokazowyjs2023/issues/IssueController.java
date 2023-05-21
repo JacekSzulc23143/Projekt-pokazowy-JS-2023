@@ -5,6 +5,7 @@ import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class IssueController {
     }
 
     @GetMapping
+    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
     ModelAndView index(@ModelAttribute IssueFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("issues/index"); // referencja do pliku
 
@@ -41,6 +43,7 @@ public class IssueController {
 
     // wyświetlenie formularza zgłoszeń
     @GetMapping("/create")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
@@ -55,6 +58,7 @@ public class IssueController {
     // edycja formularza zgłoszeń
     // TODO: @Secured("ROLE_PROJECT_EDIT")
     @GetMapping("/edit/{id}")
+    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB"})
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
@@ -71,6 +75,7 @@ public class IssueController {
     // dostęp do błędów przez klasę BindingResult
     // komunikaty przez klasę RedirectAttributes
     @PostMapping("/save")
+    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB"})
     ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("issues/create");
@@ -105,6 +110,7 @@ public class IssueController {
     // usuwanie zgłoszenia
     // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView deleteIssue(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("issues/create");
 

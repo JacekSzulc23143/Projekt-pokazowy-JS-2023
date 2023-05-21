@@ -20,6 +20,7 @@ public class ProjectController {
     }
 
     @GetMapping
+    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB"})
     ModelAndView index(@ModelAttribute ProjectFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
         // pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("projects/index"); // referencja do pliku

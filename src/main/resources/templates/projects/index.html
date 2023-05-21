@@ -33,7 +33,8 @@
 
         <!--Nowy projekt-->
         <div class="py-3">
-            <a th:href="@{/projects/create}" class="btn btn-success" th:text="#{design.create}"></a>
+            <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
+               th:href="@{/projects/create}" class="btn btn-success" th:text="#{design.create}"></a>
         </div>
 
         <table class="table table-striped">
@@ -44,9 +45,11 @@
                 <!--Nazwa-->
                 <th th:text="#{common.name}"></th>
                 <!--Edycja-->
-                <th th:text="#{common.edition}"></th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
+                    th:text="#{common.edition}"></th>
                 <!--Usuwanie-->
-                <th th:text="#{common.removal}"></th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
+                    th:text="#{common.removal}"></th>
             </tr>
             </thead>
 
@@ -56,12 +59,12 @@
                 <td th:text="${project.code}"></td>
                 <td th:text="${project.name}"></td>
                 <!--Edytuj-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
                     <a th:href="@{'/projects/edit/' + ${project.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
                     <a th:if="${project.id}" th:href="@{/projects/delete/{id}(id=${project.id})}"
                        class="btn btn-outline-danger"
                        th:text="#{common.delete}">

@@ -82,7 +82,8 @@
 
         <!--Nowe zgłoszenie-->
         <div class="py-3">
-            <a th:href="@{/issues/create}" class="btn btn-success" th:text="#{problem.create}"></a>
+            <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
+               th:href="@{/issues/create}" class="btn btn-success" th:text="#{problem.create}"></a>
         </div>
 
         <table class="table table-striped">
@@ -95,9 +96,11 @@
                 <!--Nazwa-->
                 <th th:text="#{common.name}"></th>
                 <!--Edycja-->
-                <th th:text="#{common.edition}"></th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}"
+                    th:text="#{common.edition}"></th>
                 <!--Usuwanie-->
-                <th th:text="#{common.removal}"></th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
+                    th:text="#{common.removal}"></th>
             </tr>
             </thead>
 
@@ -108,12 +111,12 @@
                 <td th:text="${issue.project.code}"></td>
                 <td th:text="${issue.name}"></td>
                 <!--Edytuj-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}">
                     <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
                     <a th:if="${issue.id}" th:href="@{/issues/delete/{id}(id=${issue.id})}"
                        class="btn btn-outline-danger"
                        th:text="#{common.delete}">
