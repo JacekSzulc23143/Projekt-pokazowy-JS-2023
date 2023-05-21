@@ -17,6 +17,10 @@
                 <span class="fs-4" th:text="#{application.name}"></span>
             </a>
 
+            <!--Przywitanie z nazwą użytkownika-->
+            <span class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-primary text-decoration-none"
+                  th:text="|#{header.welcome} ${#authentication.getPrincipal().username}|"></span>
+
             <ul class="nav nav-pills">
                 <li class="nav-item"><a aria-current="page" class="nav-link active" th:text="#{header.home}"
                                         href="/"></a></li>
