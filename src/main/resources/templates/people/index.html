@@ -32,7 +32,8 @@
 
         <!--Nowy użytkownik-->
         <div class="py-3">
-            <a th:href="@{/people/create}" class="btn btn-success" th:text="#{people.create}"></a>
+            <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
+               th:href="@{/people/create}" class="btn btn-success" th:text="#{people.create}"></a>
         </div>
 
         <table class="table table-striped">
@@ -42,10 +43,14 @@
                 <th th:text="#{common.username}"></th>
                 <!--Imię-->
                 <th th:text="#{common.realName}"></th>
+                <!--Email-->
+                <th th:text="#{common.email}"></th>
                 <!--Edycja-->
-                <th th:text="#{common.edition}"></th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
+                    th:text="#{common.edition}"></th>
                 <!--Usuwanie-->
-                <th th:text="#{common.removal}"></th>
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
+                    th:text="#{common.removal}"></th>
             </tr>
             </thead>
 
@@ -54,13 +59,14 @@
             <tr th:each="per: ${person}">
                 <td th:text="${per.username}"></td>
                 <td th:text="${per.realName}"></td>
+                <td th:text="${per.email}"></td>
                 <!--Edytuj-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
                     <a th:href="@{'/people/edit/' + ${per.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->
-                <td>
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
                     <a th:if="${per.id}" th:href="@{/people/delete/{id}(id=${per.id})}"
                        class="btn btn-outline-danger"
                        th:text="#{common.delete}">

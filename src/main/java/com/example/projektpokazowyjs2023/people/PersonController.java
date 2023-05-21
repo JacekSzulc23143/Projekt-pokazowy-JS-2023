@@ -28,7 +28,7 @@ public class PersonController {
     }
 
     @GetMapping
-    @Secured({"ROLE_USER_TAB", "ROLE_MANAGE_USERS"})
+    @Secured({"ROLE_MANAGE_USERS", "ROLE_USER_TAB"})
     ModelAndView index(@ModelAttribute PersonFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
         // pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("people/index"); // referencja do pliku

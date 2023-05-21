@@ -29,7 +29,7 @@ public class Person {
 
     @NotEmpty
 //    @Size(min = 2)
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String realName;
 
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",

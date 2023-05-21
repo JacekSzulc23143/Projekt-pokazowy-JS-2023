@@ -24,9 +24,12 @@
             <ul class="nav nav-pills">
                 <li class="nav-item"><a aria-current="page" class="nav-link active" th:text="#{header.home}"
                                         href="/"></a></li>
-                <li class="nav-item"><a class="nav-link" th:text="#{header.projects}" href="/projects"></a></li>
-                <li class="nav-item"><a class="nav-link" th:text="#{header.issues}" href="/issues"></a></li>
-                <li class="nav-item"><a class="nav-link" th:text="#{header.users}" href="/people"></a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}"
+                    class="nav-item"><a class="nav-link" th:text="#{header.projects}" href="/projects"></a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}"
+                    class="nav-item"><a class="nav-link" th:text="#{header.issues}" href="/issues"></a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}"
+                    class="nav-item"><a class="nav-link" th:text="#{header.users}" href="/people"></a></li>
 
                 <!--Wyloguj się-->
                 <form th:action="@{/logout}" method="post" class="form-inline">
