@@ -7,10 +7,10 @@ public class PersonFilter extends IssueFilter {
 
     // metoda do sortowania
     public String toSortString(Sort sort) {
-        Sort.Order order = sort.getOrderFor("realName");
+        Sort.Order order = sort.getOrderFor("username");
         String sortString = "";
         if (order != null) {
-            sortString += "realName," + order.getDirection();
+            sortString += "username," + order.getDirection();
         }
 
         return sortString;
@@ -18,12 +18,12 @@ public class PersonFilter extends IssueFilter {
 
     // metoda - kierunek sortowania
     public Sort findNextSorting(Sort currentSorting) {
-        Sort.Direction currentDirection = currentSorting.getOrderFor("realName") != null ? currentSorting.getOrderFor("realName").getDirection() : null;
+        Sort.Direction currentDirection = currentSorting.getOrderFor("username") != null ? currentSorting.getOrderFor("username").getDirection() : null;
 
         if (currentDirection == null) {
-            return Sort.by("realName").ascending();
+            return Sort.by("username").ascending();
         } else if (currentDirection.isAscending()) {
-            return Sort.by("realName").descending();
+            return Sort.by("username").descending();
         } else {
             return Sort.unsorted();
         }

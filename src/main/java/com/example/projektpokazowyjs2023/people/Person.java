@@ -41,10 +41,12 @@ public class Person {
 //    @ColumnDefault(value = "true")
     private Boolean enabled = true;
 
-    public Person(String username, String password, String realName) {
+    public Person(String username, String password, String realName, String email, Boolean enabled) {
         this.username = username;
         this.password = password;
         this.realName = realName;
+        this.email = email;
+        this.enabled = enabled;
     }
 
     public Person() {
