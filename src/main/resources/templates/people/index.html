@@ -22,8 +22,7 @@
         <div class="row py-3">
             <span th:text="#{sort.order}"></span>
             <span
-                    th:with="sortingDir=${person.sort.getOrderFor('realName') != null ? person.sort.getOrderFor('realName').direction.toString() : null }">
-                    <a th:href="@{'/people?' + ${filter.toQueryString(person.number, filter.findNextSorting(person.sort))}}">
+                    th:with="sortingDir=${person.sort.getOrderFor('username') != null ? person.sort.getOrderFor('username').direction.toString() : null }">                    <a th:href="@{'/people?' + ${filter.toQueryString(person.number, filter.findNextSorting(person.sort))}}">
                         <i th:if="${sortingDir == null}" class="fa-solid fa-sort fa-xl"></i>
                         <i th:if="${sortingDir == 'ASC'}" class="fa-solid fa-sort-up fa-xl"></i>
                         <i th:if="${sortingDir == 'DESC'}" class="fa-solid fa-sort-down fa-xl"></i>
