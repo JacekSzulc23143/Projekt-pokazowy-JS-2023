@@ -91,10 +91,10 @@
             <tr>
                 <!--Kod-->
                 <th th:text="#{common.code}"></th>
-                <!--Projekt-->
-                <th th:text="#{problem.project}"></th>
                 <!--Nazwa-->
                 <th th:text="#{common.name}"></th>
+                <!--Kod projektu-->
+                <th th:text="#{problem.project}"></th>
                 <!--Edycja-->
                 <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}"
                     th:text="#{common.edition}"></th>
@@ -108,8 +108,8 @@
             <!--wyświetli w pętli wszystkie zgłoszenia-->
             <tr th:each="issue: ${issues}">
                 <td th:text="${issue.code}"></td>
-                <td th:text="${issue.project.code}"></td>
                 <td th:text="${issue.name}"></td>
+                <td th:text="${issue.project.code}"></td>
                 <!--Edytuj-->
                 <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}">
                     <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-outline-secondary"
