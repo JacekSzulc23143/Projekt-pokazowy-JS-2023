@@ -28,7 +28,7 @@
 
             <!--Nazwa użytkownika-->
             <div class="mb-3 row mt-3">
-                <div class="col-1">
+                <div class="col-2">
                     <label for="person-username" class="form-label" th:text="#{common.username}"></label>
                 </div>
 
@@ -47,7 +47,7 @@
 
             <!--Hasło-->
             <div class="mb-3 row">
-                <div class="col-1">
+                <div class="col-2">
                     <label for="person-password" class="form-label" th:text="#{common.password}"></label>
                 </div>
 
@@ -64,9 +64,28 @@
                 </div>
             </div>
 
+            <!--Powtórzenie hasła-->
+            <div class="mb-3 row">
+                <div class="col-2">
+                    <label for="repeated-password" class="form-label" th:text="#{common.repeatedPassword}"></label>
+                </div>
+
+                <div class="col-4">
+                    <input type="password" placeholder="***********"
+                           th:class="'form-control ' + ${#fields.hasErrors('repeatedPassword') ? 'is-invalid' : ''}"
+                           id="repeated-password"
+                           th:field="*{repeatedPassword}">
+                    <div class="form-text">
+                        <!--tekst na czerwono z błędami-->
+                        <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
             <!--Imię-->
             <div class="mb-3 row">
-                <div class="col-1">
+                <div class="col-2">
                     <label for="person-realName" class="form-label" th:text="#{common.realName}"></label>
                 </div>
 
@@ -85,7 +104,7 @@
 
             <!--Email-->
             <div class="mb-3 row">
-                <div class="col-1">
+                <div class="col-2">
                     <label for="person-email" class="form-label" th:text="#{common.email}"></label>
                 </div>
 
@@ -107,7 +126,7 @@
 
             <!--Uprawnienia-->
             <div class="mb-3 row">
-                <div class="col-1">
+                <div class="col-2">
                     <label class="form-label" th:text="#{authority.order}"></label>
                 </div>
 

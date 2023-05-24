@@ -2,6 +2,7 @@ package com.example.projektpokazowyjs2023.people;
 
 import com.example.projektpokazowyjs2023.authorities.Authority;
 import com.example.projektpokazowyjs2023.validators.UniqueUsername;
+import com.example.projektpokazowyjs2023.validators.ValidPasswords;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Entity
 @Data
 @UniqueUsername
+@ValidPasswords
 public class Person {
 
     @Id
@@ -24,10 +26,13 @@ public class Person {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @NotEmpty
+//    @NotEmpty
 //    @Size(min = 5)
     @Column(nullable = false)
     private String password;
+
+    @Transient // @Transient oznacza że nie zostanie zapisane w bazie danych
+    private String repeatedPassword;
 
     @NotEmpty
 //    @Size(min = 2)
