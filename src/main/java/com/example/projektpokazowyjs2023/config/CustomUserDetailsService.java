@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Pobieramy użytkownika z bazy danych. Optional bo może nie istnieć w bazie danych.
-        Optional<Person> person = personRepository.findByUsername(username);
+        Optional<Person> person = Optional.ofNullable(personRepository.findByUsername(username));
         if (person.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
