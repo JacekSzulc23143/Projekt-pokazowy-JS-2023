@@ -1,6 +1,7 @@
 package com.example.projektpokazowyjs2023.people;
 
 import com.example.projektpokazowyjs2023.authorities.Authority;
+import com.example.projektpokazowyjs2023.validators.UniqueUsername;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@UniqueUsername
 public class Person {
 
     @Id
