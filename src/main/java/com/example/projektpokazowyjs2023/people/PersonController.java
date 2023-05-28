@@ -5,12 +5,14 @@ import com.example.projektpokazowyjs2023.authorities.AuthorityRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -125,6 +127,18 @@ public class PersonController {
         redirectAttrs.addFlashAttribute("status", "success");
 
         modelAndView.setViewName("redirect:/people");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/myAccount")
+    ModelAndView viewUserHome(@AuthenticationPrincipal Person person, Principal principal){
+        ModelAndView modelAndView = new ModelAndView("people/myAccount");
+
+        List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
+
+        modelAndView.addObject("authorities", authorities);
+        modelAndView.addObject("person", personService.currentUser(principal.getName()));
 
         return modelAndView;
     }
