@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{user.label}"/>
+</head>
+<body>
+<section layout:fragment="custom-content">
+    <div class="container">
+
+        <!--Dane użytkownika-->
+        <h1 th:text="|#{people.userData} ${person.username}|"></h1>
+
+        <form th:object="${person}">
+
+            <!--Nazwa użytkownika-->
+            <div class="mb-3 row mt-3">
+                <div class="col-2">
+                    <label for="person-username" class="form-label" th:text="#{common.username}"></label>
+                </div>
+
+                <div class="col-4">
+                    <input type="text"
+                           id="person-username"
+                           th:field="*{username}"
+                           class="form-control"
+                           disabled>
+                </div>
+            </div>
+
+            <!--Imię i nazwisko-->
+            <div class="mb-3 row">
+                <div class="col-2">
+                    <label for="person-realName" class="form-label" th:text="#{common.realName}"></label>
+                </div>
+
+                <div class="col-4">
+                    <input type="text"
+                           id="person-realName"
+                           th:field="*{realName}"
+                           class="form-control"
+                           disabled>
+                </div>
+            </div>
+
+            <!--Email-->
+            <div class="mb-3 row">
+                <div class="col-2">
+                    <label for="person-email" class="form-label" th:text="#{common.email}"></label>
+                </div>
+
+                <div class="col-4">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">@</span>
+                        <input type="email"
+                               id="person-email"
+                               th:field="*{email}"
+                               class="form-control"
+                               disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!--Uprawnienia-->
+            <div class="mb-3 row">
+                <div class="col-2">
+                    <label class="form-label" th:text="#{authority.order}"></label>
+                </div>
+
+                <div class="col-4">
+                    <p th:each="authority : ${authorities}">
+                        <input type="checkbox" name="authorities"
+                               th:value="${authority.id}"
+                               th:field="*{authorities}"
+                               disabled/>
+
+                        <label th:text="#{${'authority.' + authority.authority}}"
+                               th:for="${#ids.prev('authorities')}"></label>
+                    </p>
+                </div>
+            </div>
+
+            <!--Przycisk powrotu-->
+            <a th:href="@{/people}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
+        </form>
+    </div>
+</section>
+</body>
+</html>

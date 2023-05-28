@@ -54,4 +54,9 @@ public class PersonService {
 
         personRepository.save(person);
     }
+
+    // Aktualny użytkownik
+    public Person currentUser(String username) {
+        return personRepository.findByUsername(username);
+    }
 }
