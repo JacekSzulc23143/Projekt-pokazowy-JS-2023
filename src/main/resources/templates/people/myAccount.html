@@ -82,8 +82,9 @@
                 </div>
             </div>
 
-            <!--Przycisk powrotu-->
-            <a th:href="@{/people}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
+            <!--Edytuj-->
+            <a th:href="@{/people/editUser/{id}(id=${person.id})}" class="btn btn-outline-secondary"
+               th:text="#{common.edit}"></a>
         </form>
     </div>
 </section>
