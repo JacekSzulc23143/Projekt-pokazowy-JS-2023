@@ -151,31 +151,31 @@ public class PersonController {
         Person person = personRepository.findById(id).orElse(null);
 
         modelAndView.addObject("authorities", authorityRepository.findAll());
-        modelAndView.addObject("person", person);
+        modelAndView.addObject("personForm", new PersonForm(person));
 
         return modelAndView;
     }
 
     // wysłanie formularza użytkownika do akcji save
-    @PostMapping("/saveUser")
-    ModelAndView saveUser(@ModelAttribute @Valid Person person, BindingResult bindingResult,
+    @PostMapping("/saveUser/{id}")
+    ModelAndView saveUser(@PathVariable Long id, @Valid PersonForm personForm, BindingResult bindingResult,
                           RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("people/editUser");
 
         // obsługa błędów
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("authorities", authorityRepository.findAll());
-            modelAndView.addObject("person", person);
+            modelAndView.addObject("personForm", personForm);
+            personForm.setId(id);
             modelAndView.addObject("status", "error");
             return modelAndView;
         }
 
-        personService.savePerson(person);
+        personService.savePerson(personForm);
 
         redirectAttrs.addFlashAttribute("status", "success");
 
-        modelAndView.setViewName("redirect:/people/editUser/" + person.getId());
+        modelAndView.setViewName("redirect:/people/editUser/" + personForm.getId());
 
         return modelAndView;
     }

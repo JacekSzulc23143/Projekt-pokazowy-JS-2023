@@ -59,4 +59,15 @@ public class PersonService {
     public Person currentUser(String username) {
         return personRepository.findByUsername(username);
     }
+
+    public void savePerson(PersonForm personForm) {
+        Person person = personRepository.findById(personForm.id).orElse(null);
+        person.username = personForm.username;
+        person.realName = personForm.realName;
+        person.email = personForm.email;
+        if (personForm.authorities.size() != 0) {
+            person.authorities = personForm.authorities;
+        }
+        personRepository.save(person);
+    }
 }
