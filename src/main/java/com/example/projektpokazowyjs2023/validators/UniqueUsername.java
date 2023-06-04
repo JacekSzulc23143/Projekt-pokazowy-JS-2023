@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 // Adnotacja walidująca unikalność nazwy użytkownika
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UsernameUniquenessValidator.class)
+@Constraint(validatedBy = {UsernameUniquenessValidator.class, EditUsernameUniquenessValidator.class})
 public @interface UniqueUsername {
     String message() default "{username.unique.error}";
 

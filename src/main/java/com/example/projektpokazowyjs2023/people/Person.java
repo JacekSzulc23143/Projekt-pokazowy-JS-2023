@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,12 +20,12 @@ public class Person {
 
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
 
     @NotEmpty
 //    @Size(min = 5)
     @Column(nullable = false, unique = true)
-    private String username;
+    public String username;
 
 //    @NotEmpty
 //    @Size(min = 5)
@@ -37,16 +38,16 @@ public class Person {
     @NotEmpty
 //    @Size(min = 2)
     @Column(nullable = false)
-    private String realName;
+    public String realName;
 
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
             flags = Pattern.Flag.CASE_INSENSITIVE)
     @Column(nullable = false, unique = true)
-    private String email;
+    public String email;
 
     @Column(nullable = false)
 //    @ColumnDefault(value = "true")
-    private Boolean enabled = true;
+    public Boolean enabled = true;
 
     public Person(String username, String password, String realName, String email, Boolean enabled) {
         this.username = username;
@@ -64,7 +65,7 @@ public class Person {
     @JoinTable(name = "person_authorities",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
-    Set<Authority> authorities;
+    Set<Authority> authorities = new HashSet<>();
 
     public Set<Authority> getAuthorities() {
         return authorities;
