@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 // Adnotacja walidująca powtórzenie hasła
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidPasswordsValidator.class)
+@Constraint(validatedBy = {ValidPasswordsValidator.class, EditValidPasswordsValidator.class})
 public @interface ValidPasswords {
 
     String message() default "{passwords.not.valid.error}";

@@ -30,10 +30,10 @@ public class Person {
 //    @NotEmpty
 //    @Size(min = 5)
     @Column(nullable = false)
-    private String password;
+    public String password;
 
     @Transient // @Transient oznacza że nie zostanie zapisane w bazie danych
-    private String repeatedPassword;
+    public String repeatedPassword;
 
     @NotEmpty
 //    @Size(min = 2)
@@ -85,5 +85,9 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

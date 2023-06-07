@@ -17,9 +17,9 @@
         </div>
 
         <!--Dane użytkownika-->
-        <h1 th:text="|#{people.userData} ${personForm.username}|"></h1>
+        <h1 th:text="|#{people.userData} ${personForm.realName}|"></h1>
 
-        <form th:action="@{/people/saveUser/{id}(id=${personForm.id})}" th:object="${personForm}" method="post">
+        <form th:action="@{/people/updateUser/{id}(id=${personForm.id})}" th:object="${personForm}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="col-4">
-                    <a th:href="@{/people/changePassword/{id}(id=${personForm.id})}" class="btn btn-outline-dark"
+                    <a th:href="@{/people/editPasswordForm/{id}(id=${personForm.id})}" class="btn btn-outline-dark"
                        id="person-password"
                        th:text="#{common.changePassword}"></a>
                 </div>
@@ -118,7 +118,7 @@
             <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
 
             <!--Przycisk anuluj-->
-            <a th:href="@{../editUser/{id}(id=${personForm.id})}" class="btn btn-secondary"
+            <a th:href="@{../editUserForm/{id}(id=${personForm.id})}" class="btn btn-secondary"
                th:text="#{common.cancel}"></a>
 
             <!--Przycisk usuń-->

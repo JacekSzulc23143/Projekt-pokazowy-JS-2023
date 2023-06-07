@@ -11,7 +11,7 @@
     <div class="container">
 
         <!--Dane użytkownika-->
-        <h1 th:text="|#{people.userData} ${person.username}|"></h1>
+        <h1 th:text="|#{people.userData} ${person.realName}|"></h1>
 
         <form th:object="${person}">
 
@@ -83,7 +83,7 @@
             </div>
 
             <!--Edytuj-->
-            <a th:href="@{/people/editUser/{id}(id=${person.id})}" class="btn btn-outline-secondary"
+            <a th:href="@{/people/editUserForm/{id}(id=${person.id})}" class="btn btn-outline-secondary"
                th:text="#{common.edit}"></a>
         </form>
     </div>
