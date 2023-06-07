@@ -144,11 +144,12 @@ public class PersonController {
     }
 
     // edycja formularza użytkownika
-    @GetMapping("/editUser/{id}")
-    ModelAndView editUser(@PathVariable Long id) {
+    @GetMapping("/editUserForm/{id}")
+    ModelAndView editUserForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("people/editUser");
 
-        Person person = personRepository.findById(id).orElse(null);
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id użytkownika: " + id));
 
         modelAndView.addObject("authorities", authorityRepository.findAll());
         modelAndView.addObject("personForm", new PersonForm(person));
@@ -157,15 +158,16 @@ public class PersonController {
     }
 
     // wysłanie formularza użytkownika do akcji save
-    @PostMapping("/saveUser/{id}")
-    ModelAndView saveUser(@PathVariable Long id, @Valid PersonForm personForm, BindingResult bindingResult,
-                          RedirectAttributes redirectAttrs) {
+    @PostMapping("/updateUser/{id}")
+    ModelAndView updateUser(@PathVariable Long id, @Valid PersonForm personForm, BindingResult bindingResult,
+                            RedirectAttributes redirectAttrs) {
 
         ModelAndView modelAndView = new ModelAndView("people/editUser");
 
         // obsługa błędów
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("personForm", personForm);
+//            modelAndView.addObject("authorities", authorityRepository.findAll());
             personForm.setId(id);
             modelAndView.addObject("status", "error");
             return modelAndView;
@@ -175,8 +177,37 @@ public class PersonController {
 
         redirectAttrs.addFlashAttribute("status", "success");
 
-        modelAndView.setViewName("redirect:/people/editUser/" + personForm.getId());
+        modelAndView.setViewName("redirect:/people/editUserForm/" + personForm.getId());
 
+        return modelAndView;
+    }
+
+    @GetMapping("/editPasswordForm/{id}")
+    ModelAndView editPasswordForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("people/changePassword");
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id użytkownika: " + id));
+        PasswordForm passwordForm = new PasswordForm(person);
+        passwordForm.setId(id);
+        modelAndView.addObject("passwordForm", passwordForm);
+        return modelAndView;
+    }
+
+    @PostMapping("/updatePassword/{id}")
+    ModelAndView updatePassword(@PathVariable Long id, @Valid PasswordForm passwordForm, BindingResult bindingResult,
+                                RedirectAttributes redirectAttrs) {
+        ModelAndView modelAndView = new ModelAndView("people/changePassword");
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("passwordForm", passwordForm);
+            passwordForm.setId(id);
+            modelAndView.addObject("status", "error");
+            return modelAndView;
+        }
+        personService.updatePassword(passwordForm);
+
+        redirectAttrs.addFlashAttribute("status", "success");
+
+        modelAndView.setViewName("redirect:/people/editPasswordForm/" + passwordForm.getId());
         return modelAndView;
     }
 }

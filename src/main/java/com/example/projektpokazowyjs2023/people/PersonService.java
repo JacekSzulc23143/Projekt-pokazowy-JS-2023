@@ -70,4 +70,11 @@ public class PersonService {
         }
         personRepository.save(person);
     }
+
+    public void updatePassword(PasswordForm passwordForm) {
+        Person person = personRepository.findById(passwordForm.id).orElse(null);
+        String pass = bCryptPasswordEncoder.encode(passwordForm.password);
+        person.setPassword(pass);
+        personRepository.save(person);
+    }
 }
