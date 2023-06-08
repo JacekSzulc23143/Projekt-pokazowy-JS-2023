@@ -1,6 +1,7 @@
 package com.example.projektpokazowyjs2023.people;
 
 import com.example.projektpokazowyjs2023.authorities.Authority;
+import com.example.projektpokazowyjs2023.validators.UniqueEmail;
 import com.example.projektpokazowyjs2023.validators.UniqueUsername;
 import com.example.projektpokazowyjs2023.validators.ValidPasswords;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 @Data
 @UniqueUsername
+@UniqueEmail
 @ValidPasswords
 public class Person {
 
@@ -27,14 +29,6 @@ public class Person {
     @Column(nullable = false, unique = true)
     public String username;
 
-//    @NotEmpty
-//    @Size(min = 5)
-    @Column(nullable = false)
-    public String password;
-
-    @Transient // @Transient oznacza że nie zostanie zapisane w bazie danych
-    public String repeatedPassword;
-
     @NotEmpty
 //    @Size(min = 2)
     @Column(nullable = false)
@@ -44,6 +38,14 @@ public class Person {
             flags = Pattern.Flag.CASE_INSENSITIVE)
     @Column(nullable = false, unique = true)
     public String email;
+
+//    @NotEmpty
+//    @Size(min = 5)
+    @Column(nullable = false)
+    public String password;
+
+    @Transient // @Transient oznacza że nie zostanie zapisane w bazie danych
+    public String repeatedPassword;
 
     @Column(nullable = false)
 //    @ColumnDefault(value = "true")
@@ -89,5 +91,9 @@ public class Person {
 
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

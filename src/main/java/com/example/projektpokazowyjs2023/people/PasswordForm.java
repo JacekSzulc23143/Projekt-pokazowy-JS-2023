@@ -16,6 +16,8 @@ public class PasswordForm {
 //    @GeneratedValue
     public Long id;
 
+    public String realName;
+
     @NotEmpty
 //    @Size(min = 5)
 //    @Column(nullable = false)
@@ -31,5 +33,6 @@ public class PasswordForm {
     public PasswordForm(Person person) {
         this.password = person.password;
         this.repeatedPassword = person.repeatedPassword;
+        this.realName = person.realName;
     }
 }
