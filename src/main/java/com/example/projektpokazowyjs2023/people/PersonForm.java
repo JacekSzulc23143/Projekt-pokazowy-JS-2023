@@ -1,6 +1,7 @@
 package com.example.projektpokazowyjs2023.people;
 
 import com.example.projektpokazowyjs2023.authorities.Authority;
+import com.example.projektpokazowyjs2023.validators.UniqueEmail;
 import com.example.projektpokazowyjs2023.validators.UniqueUsername;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @Data
 @UniqueUsername
+@UniqueEmail
 @NoArgsConstructor
 public class PersonForm {
 
