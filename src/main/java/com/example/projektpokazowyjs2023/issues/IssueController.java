@@ -1,9 +1,9 @@
 package com.example.projektpokazowyjs2023.issues;
 
+import com.example.projektpokazowyjs2023.mail.MailService;
 import com.example.projektpokazowyjs2023.people.PersonRepository;
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -19,12 +19,14 @@ public class IssueController {
     private final ProjectRepository projectRepository; // repozytorium projektów
     private final IssueRepository issueRepository; // repozytorium zgłoszeń
     private final PersonRepository personRepository; // repozytorium użytkowników
+    private final MailService mailService;
 
     public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository,
-                           PersonRepository personRepository) {
+                           PersonRepository personRepository, MailService mailService) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
+        this.mailService = mailService;
     }
 
     @GetMapping
@@ -90,6 +92,8 @@ public class IssueController {
         }
 
         boolean isNew = issue.getId() == null; // sprawdza czy nowe zgłoszenie
+
+        mailService.sendToContractor(issue);
 
         issueRepository.save(issue);
 
