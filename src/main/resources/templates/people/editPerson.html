@@ -16,10 +16,10 @@
             <div class="alert alert-danger" th:if="${status == 'error'}" th:text="#{issue.error.message}"></div>
         </div>
 
-        <!--Nowy użytkownik-->
-        <h1 th:text="#{people.create}"></h1>
+        <!--Edycja użytkownika-->
+        <h1 th:text="|#{people.peopleEdition} ${personForm.realName}|"></h1>
 
-        <form th:action="@{/people/save}" th:object="${person}" method="post">
+        <form th:action="@{/people/updatePerson/{id}(id=${personForm.id})}" th:object="${personForm}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
@@ -83,46 +83,21 @@
                 </div>
             </div>
 
-            <!--Hasło-->
+            <!--Zmień hasło-->
             <div class="mb-3 row">
                 <div class="col-2">
                     <label for="person-password" class="form-label" th:text="#{common.password}"></label>
                 </div>
 
                 <div class="col-4">
-                    <input type="password" placeholder="***********"
-                           th:class="'form-control ' + ${#fields.hasErrors('password') ? 'is-invalid' : ''}"
-                           id="person-password"
-                           th:field="*{password}">
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                              class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!--Powtórzenie hasła-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label for="repeated-password" class="form-label" th:text="#{common.repeatedPassword}"></label>
-                </div>
-
-                <div class="col-4">
-                    <input type="password" placeholder="***********"
-                           th:class="'form-control ' + ${#fields.hasErrors('repeatedPassword') ? 'is-invalid' : ''}"
-                           id="repeated-password"
-                           th:field="*{repeatedPassword}">
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"
-                              class="text-danger"></span>
-                    </div>
+                    <a th:href="@{/people/editPassForm/{id}(id=${personForm.id})}" class="btn btn-outline-dark"
+                       id="person-password"
+                       th:text="#{common.changePassword}"></a>
                 </div>
             </div>
 
             <!--Uprawnienia-->
-            <div class="mb-3 row">
+            <div class="mb-3 row" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
                 <div class="col-2">
                     <label class="form-label" th:text="#{authority.order}"></label>
                 </div>
@@ -131,7 +106,7 @@
                     <p th:each="authority : ${authorities}">
                         <input type="checkbox" name="authorities"
                                th:value="${authority.id}"
-                               th:field="*{authorities}"/>
+                               th:field="*{authorities}">
 
                         <label th:text="#{${'authority.' + authority.authority}}"
                                th:for="${#ids.prev('authorities')}"></label>
@@ -141,6 +116,16 @@
 
             <!--Przycisk zapisz-->
             <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
+
+            <!--Przycisk anuluj-->
+            <a th:href="@{../editPersonForm/{id}(id=${personForm.id})}" class="btn btn-secondary"
+               th:text="#{common.cancel}"></a>
+
+            <!--Przycisk usuń-->
+            <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
+               th:href="@{../delete/{id}(id=${personForm.id})}" class="btn btn-danger"
+               th:text="#{common.delete}">
+            </a>
 
             <!--Przycisk powrotu-->
             <a th:href="@{/people}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>

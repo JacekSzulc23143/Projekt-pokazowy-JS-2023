@@ -31,8 +31,7 @@ public class PersonController {
 
     @GetMapping
     @Secured({"ROLE_MANAGE_USERS", "ROLE_USER_TAB"})
-    ModelAndView index(@ModelAttribute PersonFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga
-        // pracować na zmiennych
+    ModelAndView index(@ModelAttribute PersonFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("people/index"); // referencja do pliku
 
         modelAndView.addObject("person", personRepository.findAll(pageable)); // zwróci listę wszystkich użytkowników
@@ -50,25 +49,8 @@ public class PersonController {
         List<Authority> authorities = (List<Authority>) authorityRepository.findAll();
 
         Person person = new Person();
+        modelAndView.addObject("person", person);
         modelAndView.addObject("authorities", authorities);
-        modelAndView.addObject("person", person);
-
-        return modelAndView;
-    }
-
-    // edycja formularza
-    /**
-     * https://www.baeldung.com/spring-boot-crud-thymeleaf
-     */
-    @GetMapping("/edit/{id}")
-    @Secured("ROLE_MANAGE_USERS")
-    ModelAndView edit(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("people/create");
-
-        Person person = personRepository.findById(id).orElse(null);
-
-        modelAndView.addObject("authorities", authorityRepository.findAll());
-        modelAndView.addObject("person", person);
 
         return modelAndView;
     }
@@ -92,7 +74,6 @@ public class PersonController {
             modelAndView.addObject("status", "error");
             return modelAndView;
         }
-
         boolean isNew = person.getId() == null; // sprawdza czy nowy użytkownik
 
         personService.savePerson(person);
@@ -104,9 +85,6 @@ public class PersonController {
         } else {
             modelAndView.setViewName("redirect:/people/edit/" + person.getId());
         }
-
-//        // zmień widok na:
-//        modelAndView.setViewName("redirect:/people");
 
         return modelAndView;
     }
@@ -128,6 +106,82 @@ public class PersonController {
 
         modelAndView.setViewName("redirect:/people");
 
+        return modelAndView;
+    }
+
+    // edycja formularza użytkownika przez admina
+    /**
+     * https://www.baeldung.com/spring-boot-crud-thymeleaf
+     */
+    @GetMapping("/editPersonForm/{id}")
+    @Secured("ROLE_MANAGE_USERS")
+    ModelAndView editPersonForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("people/editPerson");
+
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id użytkownika: " + id));
+
+        modelAndView.addObject("authorities", authorityRepository.findAll());
+        modelAndView.addObject("personForm", new PersonForm(person));
+
+        return modelAndView;
+    }
+
+    // wysłanie formularza użytkownika do akcji save przez admina
+    @PostMapping("/updatePerson/{id}")
+    @Secured("ROLE_MANAGE_USERS")
+    ModelAndView updatePerson(@PathVariable Long id, @Valid PersonForm personForm, BindingResult bindingResult,
+                              RedirectAttributes redirectAttrs) {
+
+        ModelAndView modelAndView = new ModelAndView("people/editPerson");
+
+        // obsługa błędów
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("authorities", authorityRepository.findAll());
+            modelAndView.addObject("personForm", personForm);
+            personForm.setId(id);
+            modelAndView.addObject("status", "error");
+            return modelAndView;
+        }
+        personService.savePerson(personForm);
+
+        redirectAttrs.addFlashAttribute("status", "success");
+
+        modelAndView.setViewName("redirect:/people/editPersonForm/" + personForm.getId());
+
+        return modelAndView;
+    }
+
+    // edycja hasła użytkownika przez admina
+    @GetMapping("/editPassForm/{id}")
+    @Secured("ROLE_MANAGE_USERS")
+    ModelAndView editPassForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("people/editPassword");
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id użytkownika: " + id));
+        PasswordForm passwordForm = new PasswordForm(person);
+        passwordForm.setId(id);
+        modelAndView.addObject("passwordForm", passwordForm);
+        return modelAndView;
+    }
+
+    // wysłanie formularza hasła użytkownika do akcji save przez admina
+    @PostMapping("/updatePass/{id}")
+    @Secured("ROLE_MANAGE_USERS")
+    ModelAndView updatePass(@PathVariable Long id, @Valid PasswordForm passwordForm, BindingResult bindingResult,
+                            RedirectAttributes redirectAttrs) {
+        ModelAndView modelAndView = new ModelAndView("people/editPassword");
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("passwordForm", passwordForm);
+            passwordForm.setId(id);
+            modelAndView.addObject("status", "error");
+            return modelAndView;
+        }
+        personService.updatePassword(passwordForm);
+
+        redirectAttrs.addFlashAttribute("status", "success");
+
+        modelAndView.setViewName("redirect:/people/editPassForm/" + passwordForm.getId());
         return modelAndView;
     }
 
@@ -166,13 +220,12 @@ public class PersonController {
 
         // obsługa błędów
         if (bindingResult.hasErrors()) {
+            modelAndView.addObject("authorities", authorityRepository.findAll());
             modelAndView.addObject("personForm", personForm);
-//            modelAndView.addObject("authorities", authorityRepository.findAll());
             personForm.setId(id);
             modelAndView.addObject("status", "error");
             return modelAndView;
         }
-
         personService.savePerson(personForm);
 
         redirectAttrs.addFlashAttribute("status", "success");
@@ -182,6 +235,7 @@ public class PersonController {
         return modelAndView;
     }
 
+    // edycja hasła użytkownika
     @GetMapping("/editPasswordForm/{id}")
     ModelAndView editPasswordForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("people/changePassword");
@@ -193,6 +247,7 @@ public class PersonController {
         return modelAndView;
     }
 
+    // wysłanie formularza hasła użytkownika do akcji save
     @PostMapping("/updatePassword/{id}")
     ModelAndView updatePassword(@PathVariable Long id, @Valid PasswordForm passwordForm, BindingResult bindingResult,
                                 RedirectAttributes redirectAttrs) {
