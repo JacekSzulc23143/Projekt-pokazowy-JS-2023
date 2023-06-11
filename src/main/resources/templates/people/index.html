@@ -62,7 +62,7 @@
                 <td th:text="${per.email}"></td>
                 <!--Edytuj-->
                 <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
-                    <a th:href="@{'/people/edit/' + ${per.id}}" class="btn btn-outline-secondary"
+                    <a th:href="@{'/people/editPersonForm/' + ${per.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->
