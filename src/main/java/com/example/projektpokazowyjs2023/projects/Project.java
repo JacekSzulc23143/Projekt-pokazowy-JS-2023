@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 @Data // zastępuje kilka adnotacji jedną np. Getter, Setter
 @Entity // adnotacja: hibernate automatycznie utworzy tabelkę Project
+@EntityListeners(AuditingEntityListener.class)
 public class Project {
 
     @Id

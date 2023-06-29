@@ -6,12 +6,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 
 @Data // zastępuje kilka adnotacji jedną np. Getter, Setter
 @Entity // adnotacja: hibernate automatycznie utworzy tabelkę Issue
+@EntityListeners(AuditingEntityListener.class) // listener który obsługuje rewizję
 public class Issue {
 
     @ManyToOne(optional = false) // Ze strony Issue do Project. Optional wymagana relacja.
@@ -26,6 +29,7 @@ public class Issue {
     @GeneratedValue
     private Long id; // id generowane automatycznie
 
+    @Audited
     @NotEmpty
 //    @Size(min = 5)
     private String name;
@@ -67,6 +71,7 @@ public class Issue {
     private IssuePriority priority = IssuePriority.EASY;
 
     // kolumna w tabelce z domyślnym stanem zgłoszenia
+    @Audited
     @Column(nullable = false) // pole obowiązkowe
     @Enumerated(EnumType.STRING) // w bazie danych pojawi się wyraz zamiast nr
     private IssueState state = IssueState.OPEN;
