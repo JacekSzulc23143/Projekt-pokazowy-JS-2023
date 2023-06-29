@@ -184,10 +184,42 @@
             <!--Przycisk historii-->
             <span class="float-end py-3">
                 <a th:if="${issue.id}" th:href="@{'/issues/history/' + ${issue.getId()}}">
-                    <i class="fa-solid fa-clock-rotate-left fa-2xl float-end" style="color: #747b86;"></i>
+                    <i class="fa-solid fa-clock-rotate-left fa-2xl float-end" style="color: #414449;"></i>
                 </a>
             </span>
         </form>
+
+        <!--Historia-->
+        <h4 class="mt-4" th:text="#{common.history}"></h4>
+
+        <table class="table table-sm table-bordered table-hover">
+            <thead>
+            <tr>
+                <!--Data-->
+                <th th:text="#{common.date}"></th>
+                <!--Wykonawca-->
+                <th th:text="#{problem.contractor}"></th>
+                <!--Rodzaj rewizji-->
+                <th th:text="#{common.revtype}"></th>
+                <!--Nazwa zgłoszenia-->
+                <th th:text="#{common.name}"></th>
+                <!--Stan-->
+                <th th:text="#{problem.state}"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <!--Wyświetli w pętli informacje o rewizji z bazy danych-->
+            <tr th:each="revision : ${revisions}">
+                <td th:text="${revision.getDate()}"></td>
+                <td th:text="${revision.getActor()}"></td>
+                <td th:text="#{${'revision.' + revision.getRevisionType()}}"></td>
+                <td th:text="${revision.getName()}"></td>
+                <td th:text="#{${'revision.' + revision.getState()}}"></td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 </section>
 </body>
