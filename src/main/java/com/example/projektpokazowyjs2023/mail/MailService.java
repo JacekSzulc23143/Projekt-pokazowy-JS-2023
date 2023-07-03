@@ -44,8 +44,8 @@ public class MailService {
 
             mimeMessageHelper.setTo(issue.getContractor().getEmail());
             mimeMessageHelper.setSubject(issue.getName());
-            mimeMessageHelper.setText("Dzień dobry," +"\r\n"+ "zostało przydzielone do Ciebie zadanie, dotyczy: " + issue.getDescription() +"\r\n"+
-                    "Wiecej informacji dostępnych jest w aplikacji \"Bug Tracker\"." +"\r\n"+ "Prosimy nie odpowiadać" +
+            mimeMessageHelper.setText("Dzień dobry," +"\r\n"+ "zostało przydzielone do Ciebie zgłoszenie, dotyczy: " + issue.getDescription() +"\r\n"+
+                    "Więcej informacji dostępnych jest w aplikacji \"Bug Tracker\"." +"\r\n"+ "Prosimy nie odpowiadać" +
                     " na tę wiadomość.");
 
             javaMailSender.send(mimeMessage);

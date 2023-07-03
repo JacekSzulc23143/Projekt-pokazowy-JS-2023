@@ -16,10 +16,10 @@
             <div class="alert alert-danger" th:if="${status == 'error'}" th:text="#{issue.error.message}"></div>
         </div>
 
-        <!--Nowe zgłoszenie-->
-        <h1 th:if="${issue.id == null}" th:text="#{problem.create}"></h1>
+        <!--Edycja zgłoszenia-->
+        <h1 th:if="${issue.id != null}" th:text="|#{problem.issueEdition} ${issue.code}|"></h1>
 
-        <form th:action="@{/issues/save}" th:object="${issue}" method="post">
+        <form th:action="@{/issues/updateIssue}" th:object="${issue}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
