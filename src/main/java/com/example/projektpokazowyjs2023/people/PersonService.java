@@ -77,4 +77,11 @@ public class PersonService {
         person.setPassword(pass);
         personRepository.save(person);
     }
+
+    public void softDelete(Person person){
+        person.setEnabled(false);
+        person.authorities.clear();
+        person.setPassword("");
+        personRepository.save(person);
+    }
 }

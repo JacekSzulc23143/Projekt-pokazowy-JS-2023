@@ -22,8 +22,8 @@
                   th:text="|#{header.identification} ${#authentication.getPrincipal().username}|"></span>
 
             <ul class="nav nav-pills">
-                <li class="nav-item"><a aria-current="page" class="nav-link active" th:text="#{header.home}"
-                                        th:href="@{/people/myAccount}"></a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}"
+                    class="nav-item"><a aria-current="page" class="nav-link active" th:text="#{header.home}" th:href="@{/people/myAccount}"></a></li>
                 <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}"
                     class="nav-item"><a class="nav-link" th:text="#{header.projects}" th:href="@{/projects}"></a></li>
                 <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}"
