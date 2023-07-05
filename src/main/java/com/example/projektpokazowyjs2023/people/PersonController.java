@@ -34,7 +34,7 @@ public class PersonController {
     ModelAndView index(@ModelAttribute PersonFilter filter, Pageable pageable) { // ModelAndView skrót, który pomaga pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("people/index"); // referencja do pliku
 
-        modelAndView.addObject("person", personRepository.findAll(pageable)); // zwróci listę wszystkich użytkowników
+        modelAndView.addObject("person", personRepository.findAll(filter.buildQuery(),pageable)); // zwróci listę wszystkich użytkowników
         // zapisanych w bazie danych
         modelAndView.addObject("filter", filter);
         return modelAndView;
@@ -96,11 +96,7 @@ public class PersonController {
     ModelAndView deletePerson(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("people/create");
 
-        Person person = personRepository.findById(id).orElse(null);
-
-        person.setEnabled(false);
-
-        personRepository.delete(person);
+        personService.softDelete(personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id użytkownika:" + id)));
 
         redirectAttrs.addFlashAttribute("status", "success");
 
@@ -186,6 +182,7 @@ public class PersonController {
     }
 
     @GetMapping("/myAccount")
+    @Secured("ROLE_USER_TAB")
     ModelAndView viewUserHome(@AuthenticationPrincipal Person person, Principal principal){
         ModelAndView modelAndView = new ModelAndView("people/myAccount");
 
@@ -199,6 +196,7 @@ public class PersonController {
 
     // edycja formularza użytkownika
     @GetMapping("/editUserForm/{id}")
+    @Secured("ROLE_USER_TAB")
     ModelAndView editUserForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("people/editUser");
 
@@ -213,6 +211,7 @@ public class PersonController {
 
     // wysłanie formularza użytkownika do akcji save
     @PostMapping("/updateUser/{id}")
+    @Secured("ROLE_USER_TAB")
     ModelAndView updateUser(@PathVariable Long id, @Valid PersonForm personForm, BindingResult bindingResult,
                             RedirectAttributes redirectAttrs) {
 
@@ -237,6 +236,7 @@ public class PersonController {
 
     // edycja hasła użytkownika
     @GetMapping("/editPasswordForm/{id}")
+    @Secured("ROLE_USER_TAB")
     ModelAndView editPasswordForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("people/changePassword");
         Person person = personRepository.findById(id)
@@ -249,6 +249,7 @@ public class PersonController {
 
     // wysłanie formularza hasła użytkownika do akcji save
     @PostMapping("/updatePassword/{id}")
+    @Secured("ROLE_USER_TAB")
     ModelAndView updatePassword(@PathVariable Long id, @Valid PasswordForm passwordForm, BindingResult bindingResult,
                                 RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("people/changePassword");

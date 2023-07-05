@@ -28,14 +28,16 @@ public class IssueController {
     private final PersonRepository personRepository; // repozytorium użytkowników
     private final MailService mailService;
     private final EntityManager entityManager; // wymaga AuditReader, żeby dostać się do bazy danych
+    private final IssueService issueService;
 
     public IssueController(ProjectRepository projectRepository, IssueRepository issueRepository,
-                           PersonRepository personRepository, MailService mailService, EntityManager entityManager) {
+                           PersonRepository personRepository, MailService mailService, EntityManager entityManager, IssueService issueService) {
         this.projectRepository = projectRepository;
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
         this.mailService = mailService;
         this.entityManager = entityManager;
+        this.issueService = issueService;
     }
 
     @GetMapping
@@ -45,9 +47,9 @@ public class IssueController {
 
         modelAndView.addObject("issues", issueRepository.findAll(filter.buildQuery(), pageable)); // zwróci listę wszystkich
         // zgłoszeń zapisanych w bazie danych
-        modelAndView.addObject("projects", projectRepository.findAll());
+        modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
         modelAndView.addObject("states", IssueState.values());
-        modelAndView.addObject("people", personRepository.findAll());
+        modelAndView.addObject("people", personRepository.findAllByEnabled(true));
         modelAndView.addObject("filter", filter);
         return modelAndView;
     }
@@ -60,8 +62,8 @@ public class IssueController {
 
         Issue issue = new Issue();
         modelAndView.addObject("issue", issue);
-        modelAndView.addObject("projects", projectRepository.findAll());
-        modelAndView.addObject("people", personRepository.findAll());
+        modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+        modelAndView.addObject("people", personRepository.findAllByEnabled(true));
 
         return modelAndView;
     }
@@ -78,8 +80,8 @@ public class IssueController {
         // obsługa błędów
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("issue", issue);
-            modelAndView.addObject("projects", projectRepository.findAll());
-            modelAndView.addObject("people", personRepository.findAll());
+            modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+            modelAndView.addObject("people", personRepository.findAllByEnabled(true));
             modelAndView.addObject("status", "error");
             return modelAndView;
         }
@@ -104,8 +106,8 @@ public class IssueController {
         Issue issue = issueRepository.findById(id).orElse(null);
 
         modelAndView.addObject("issue", issue);
-        modelAndView.addObject("projects", projectRepository.findAll());
-        modelAndView.addObject("people", personRepository.findAll());
+        modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+        modelAndView.addObject("people", personRepository.findAllByEnabled(true));
 
         return modelAndView;
     }
@@ -123,8 +125,8 @@ public class IssueController {
         // obsługa błędów
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("issue", issue);
-            modelAndView.addObject("projects", projectRepository.findAll());
-            modelAndView.addObject("people", personRepository.findAll());
+            modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+            modelAndView.addObject("people", personRepository.findAllByEnabled(true));
             modelAndView.addObject("status", "error");
             return modelAndView;
         }
@@ -145,11 +147,7 @@ public class IssueController {
     ModelAndView deleteIssue(@PathVariable Long id, RedirectAttributes redirectAttrs) {
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
-        Issue issue = issueRepository.findById(id).orElse(null);
-
-        issue.setEnabled(false);
-
-        issueRepository.delete(issue);
+        issueService.softDelete(issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id zgłoszenia:" + id)));
 
         redirectAttrs.addFlashAttribute("status", "success");
 
@@ -166,8 +164,8 @@ public class IssueController {
         Issue issue = issueRepository.findById(id).orElse(null);
 
         modelAndView.addObject("issue", issue);
-        modelAndView.addObject("projects", projectRepository.findAll());
-        modelAndView.addObject("people", personRepository.findAll());
+        modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+        modelAndView.addObject("people", personRepository.findAllByEnabled(true));
 
         AuditReader auditReader = AuditReaderFactory.get(entityManager);
 

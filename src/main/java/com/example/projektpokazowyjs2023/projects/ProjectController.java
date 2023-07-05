@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProjectController {
 
     private final ProjectRepository projectRepository; // repozytorium
+    private final ProjectService projectService;
 
-    public ProjectController(ProjectRepository projectRepository) {
+    public ProjectController(ProjectRepository projectRepository, ProjectService projectService) {
         this.projectRepository = projectRepository;
+        this.projectService = projectService;
     }
 
     @GetMapping
@@ -25,7 +27,7 @@ public class ProjectController {
         // pracować na zmiennych
         ModelAndView modelAndView = new ModelAndView("projects/index"); // referencja do pliku
 
-        modelAndView.addObject("projects", projectRepository.findAll(pageable)); // zwróci listę wszystkich projektów
+        modelAndView.addObject("projects", projectRepository.findAll(filter.buildQuery(),pageable)); // zwróci listę wszystkich projektów
         // zapisanych w bazie danych
         modelAndView.addObject("filter", filter);
         return modelAndView;
@@ -101,13 +103,9 @@ public class ProjectController {
     @GetMapping("/delete/{id}")
     @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView deleteProject(@PathVariable Long id, RedirectAttributes redirectAttrs) {
-        ModelAndView modelAndView = new ModelAndView("projects/create");
+        ModelAndView modelAndView = new ModelAndView();
 
-        Project project = projectRepository.findById(id).orElse(null);
-
-        project.setEnabled(false);
-
-        projectRepository.delete(project);
+        projectService.softDelete(projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id projektu:" + id)));
 
         redirectAttrs.addFlashAttribute("status", "success");
 
