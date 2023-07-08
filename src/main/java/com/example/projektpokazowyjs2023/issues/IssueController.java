@@ -99,7 +99,7 @@ public class IssueController {
 
     // edycja formularza zgłoszeń
     @GetMapping("/edit/{id}")
-    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB"})
+    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
     ModelAndView edit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("issues/update");
 
@@ -158,6 +158,7 @@ public class IssueController {
 
     // Historia wybranego zgłoszenia
     @GetMapping("/history/{id}")
+    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
     ModelAndView history(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("issues/history");
 

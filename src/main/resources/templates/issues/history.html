@@ -11,9 +11,13 @@
     <div class="container">
 
         <!--Komunikaty dymkowe-->
-        <div class="col-4">
-            <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
-            <div class="alert alert-danger" th:if="${status == 'error'}" th:text="#{issue.error.message}"></div>
+        <div th:if="${status == 'success'}" class="col-4 alert alert-warning alert-dismissible fade show" role="alert">
+            <div th:text="#{success.message}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${status == 'error'}" class="col-4 alert alert-danger alert-dismissible fade show" role="alert">
+            <div th:text="#{error.message}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <!--Nowe zgłoszenie-->
