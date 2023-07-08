@@ -14,8 +14,9 @@
         <h1 class="text-center" th:text="#{problem.problemList}"></h1>
 
         <!--Komunikaty dymkowe-->
-        <div class="col-4">
-            <div class="alert alert-success" th:if="${status == 'success'}" th:text="#{issue.success.message}"></div>
+        <div th:if="${status == 'success'}" class="col-4 alert alert-success alert-dismissible fade show" role="alert">
+            <div th:text="#{success.message}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
         <!--Formularz z filtrami-->
@@ -96,7 +97,7 @@
                 <!--Kod projektu-->
                 <th th:text="#{problem.project}"></th>
                 <!--Edycja-->
-                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}"
+                <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}"
                     th:text="#{common.edition}"></th>
                 <!--Usuwanie-->
                 <th th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}"
@@ -111,7 +112,7 @@
                 <td th:text="${issue.name}"></td>
                 <td th:text="${issue.project.code}"></td>
                 <!--Edytuj-->
-                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')}">
+                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}">
                     <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
