@@ -9,7 +9,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +24,7 @@ import java.util.Set;
 @UniqueUsername
 @UniqueEmail
 @ValidPasswords
+@EntityListeners(AuditingEntityListener.class)
 public class Person {
 
     @Id
@@ -46,6 +53,22 @@ public class Person {
 
     @Transient // @Transient oznacza że nie zostanie zapisane w bazie danych
     public String repeatedPassword;
+
+    @CreatedDate
+    @Column(updatable = false)
+    public Date dateCreated;
+
+    @LastModifiedDate
+    @Column
+    public Date lastUpdated;
+
+    @CreatedBy
+    @Column(updatable = false)
+    public String createdBy;
+
+    @LastModifiedBy
+    @Column
+    public String lastUpdatedBy;
 
     @Column(nullable = false)
 //    @ColumnDefault(value = "true")

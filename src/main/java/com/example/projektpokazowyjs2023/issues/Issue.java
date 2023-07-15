@@ -7,6 +7,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
@@ -43,13 +47,23 @@ public class Issue {
     @Column(columnDefinition = "TEXT") // dowolna liczba znaków tekstowych w polu tekstowym
     private String description;
 
+    @CreatedDate
+    @Column(updatable = false)
+    private Date dateCreated;
+
+    @LastModifiedDate
+    @Column
+    private Date lastUpdated;
+
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column
+    private String lastUpdatedBy;
+
     @Column(nullable = false) // pole obowiązkowe
-    private Date dateCreated = new Date();
-
-//    @Column(nullable = false)
-    private Date lastUpdate;
-
-    @Column(nullable = false)
     private Boolean enabled = true; // nowe zadanie domyślnie jest włączone
 
 //    @ManyToOne

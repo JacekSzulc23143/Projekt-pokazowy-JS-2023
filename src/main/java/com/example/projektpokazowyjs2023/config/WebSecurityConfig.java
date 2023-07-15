@@ -2,6 +2,7 @@ package com.example.projektpokazowyjs2023.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -55,5 +56,12 @@ public class WebSecurityConfig {
         provider.setUserDetailsService(customUserDetailsService);
 
         return provider;
+    }
+
+    // Informacje o bieżącym twórcy. AuditorAware należy zaimplementować, aby poinformować infrastrukturę, kim jest
+    // bieżący użytkownik.
+    @Bean
+    AuditorAware<String> auditorProvider() {
+        return new SpringSecurityAuditorAware();
     }
 }
