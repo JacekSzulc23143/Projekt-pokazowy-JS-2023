@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
@@ -30,8 +34,21 @@ public class Project {
     @Column(columnDefinition = "TEXT") // dowolna liczba znaków tekstowych w polu tekstowym
     private String description;
 
-    @Column(nullable = false)
-    private Date dateCreated = new Date();
+    @CreatedDate
+    @Column(updatable = false)
+    private Date dateCreated;
+
+    @LastModifiedDate
+    @Column
+    private Date lastUpdated;
+
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    @Column
+    private String lastUpdatedBy;
 
     @Column(nullable = false)
     private Boolean enabled = true; // nowy projekt domyślnie jest włączony
