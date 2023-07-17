@@ -62,10 +62,10 @@
                     <!--Obsługa Enumu, typu zgłoszenia-->
                     <div class="mb-3 row">
                         <div class="col-4">
-                            <label for="demo" class="form-label" th:text="#{problem.type}"></label>
+                            <label for="select-type" class="form-label" th:text="#{problem.type}"></label>
                         </div>
                         <div class="col">
-                            <select name="demo" id="demo" class="form-select" th:field="*{type}">
+                            <select name="select-type" id="select-type" class="form-select" th:field="*{type}">
                                 <option
                                         th:each="issueType : ${T(com.example.projektpokazowyjs2023.issues.IssueType).values()}"
                                         th:value="${issueType}"
