@@ -78,10 +78,11 @@
                     <!--Obsługa Enumu, priorytetu zgłoszenia-->
                     <div class="mb-3 row">
                         <div class="col-4">
-                            <label for="demo2" class="form-label" th:text="#{problem.priority}"></label>
+                            <label for="select-priority" class="form-label" th:text="#{problem.priority}"></label>
                         </div>
                         <div class="col">
-                            <select name="demo2" id="demo2" class="form-select" th:field="*{priority}">
+                            <select name="select-priority" id="select-priority" class="form-select"
+                                    th:field="*{priority}" onchange="setPriority()">
                                 <option
                                         th:each="issuePriority : ${T(com.example.projektpokazowyjs2023.issues.IssuePriority).values()}"
                                         th:value="${issuePriority}"

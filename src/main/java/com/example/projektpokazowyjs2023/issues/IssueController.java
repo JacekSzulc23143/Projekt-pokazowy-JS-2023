@@ -190,4 +190,12 @@ public class IssueController {
         issueService.updateState(id, state);
         return ResponseEntity.ok().build();
     }
+
+    // end point (punkt przerwania-końcowy) wywoływany w momencie, gdy zmienimy coś w selekcie po priorytecie zgłoszenia
+    // metoda wykonująca się asynchronicznie, wywoływana przez JavaScript
+    @PatchMapping("/priority/{id}")
+    ResponseEntity<Void> updatePriority(@PathVariable Long id, @RequestBody IssuePriority priority) {
+        issueService.updatePriority(id, priority);
+        return ResponseEntity.ok().build();
+    }
 }

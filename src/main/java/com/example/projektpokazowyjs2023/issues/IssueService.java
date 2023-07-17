@@ -21,4 +21,11 @@ public class IssueService {
         issue.setState(state);
         issueRepository.save(issue);
     }
+
+    // metoda, która aktualizuje priorytet zgłoszenia
+    public void updatePriority(Long id, IssuePriority priority) {
+        Issue issue = issueRepository.getReferenceById(id);
+        issue.setPriority(priority);
+        issueRepository.save(issue);
+    }
 }

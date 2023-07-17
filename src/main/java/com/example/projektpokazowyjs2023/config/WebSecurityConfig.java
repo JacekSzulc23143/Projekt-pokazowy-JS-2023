@@ -34,7 +34,7 @@ public class WebSecurityConfig {
                         // tej domyślnej oferowanej przez Spring Security
                         .permitAll()
                 )
-                .csrf().ignoringRequestMatchers("/issues/state/**") // wykluczenie potrzebne dla AJAX
+                .csrf().ignoringRequestMatchers("/issues/state/**", "/issues/priority/**") // wykluczenie potrzebne dla AJAX
                 .and()
                 .logout((logout) -> logout.permitAll());
 
