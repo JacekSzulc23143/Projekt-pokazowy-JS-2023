@@ -10,6 +10,7 @@ import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -180,5 +181,13 @@ public class IssueController {
         modelAndView.addObject("revisions", revisions);
 
         return modelAndView;
+    }
+
+    // end point (punkt przerwania-końcowy) wywoływany w momencie, gdy zmienimy coś w selekcie po stanie zgłoszenia
+    // metoda wykonująca się asynchronicznie, wywoływana przez JavaScript
+    @PatchMapping("/state/{id}")
+    ResponseEntity<Void> updateState(@PathVariable Long id, @RequestBody IssueState state) {
+        issueService.updateState(id, state);
+        return ResponseEntity.ok().build();
     }
 }
