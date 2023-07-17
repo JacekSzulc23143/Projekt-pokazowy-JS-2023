@@ -25,7 +25,7 @@
 
         <form th:action="@{/issues/updateIssue}" th:object="${issue}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
-            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{id}" id="issue-id">
 
             <div class="mb-3 row mt-3">
                 <div class="col-4">
@@ -95,10 +95,10 @@
                     <!--Obsługa Enumu, stanu zgłoszenia-->
                     <div class="mb-3 row">
                         <div class="col-4">
-                            <label for="demo3" class="form-label" th:text="#{problem.state}"></label>
+                            <label for="select-state" class="form-label" th:text="#{problem.state}"></label>
                         </div>
                         <div class="col">
-                            <select name="demo3" id="demo3" class="form-select" th:field="*{state}">
+                            <select name="select-state" id="select-state" class="form-select" th:field="*{state}" onchange="setState()">
                                 <option
                                         th:each="issueState : ${T(com.example.projektpokazowyjs2023.issues.IssueState).values()}"
                                         th:value="${issueState}"

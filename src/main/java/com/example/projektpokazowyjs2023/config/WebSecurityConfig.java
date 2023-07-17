@@ -26,13 +26,16 @@ public class WebSecurityConfig {
                         .requestMatchers("/contact2", "/mails2").permitAll() //1. Strona /contact2 będzie dostępna dla
                         // niezalogowanych
                         .requestMatchers("/images/**").permitAll()//2. przepuszcza obrazki
-                        .anyRequest().authenticated() //3. Wszystkie pozostałe adresy będą zabezpieczone
+                        .requestMatchers("/js/**").permitAll()//3. przepuszcza pliki JavaScript
+                        .anyRequest().authenticated() //4 Wszystkie pozostałe adresy będą zabezpieczone
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")// 4. Aplikacja będzie wyświetlała przygotowaną stronę, zamiast
+                        .loginPage("/login")// 5. Aplikacja będzie wyświetlała przygotowaną stronę, zamiast
                         // tej domyślnej oferowanej przez Spring Security
                         .permitAll()
                 )
+                .csrf().ignoringRequestMatchers("/issues/state/**") // wykluczenie potrzebne dla AJAX
+                .and()
                 .logout((logout) -> logout.permitAll());
 
         return http.build();
