@@ -28,4 +28,11 @@ public class IssueService {
         issue.setPriority(priority);
         issueRepository.save(issue);
     }
+
+    // metoda, która aktualizuje typ zgłoszenia
+    public void updateType(Long id, IssueType type) {
+        Issue issue = issueRepository.getReferenceById(id);
+        issue.setType(type);
+        issueRepository.save(issue);
+    }
 }

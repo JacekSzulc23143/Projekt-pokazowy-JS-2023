@@ -27,3 +27,18 @@ function setPriority() {
         console.log(error);
     })
 }
+
+function setType() {
+    const issueId = document.getElementById("issue-id").value;
+    if (!issueId) {
+        return;
+    }
+
+    const newType = document.getElementById("select-type").value;
+
+    axios.patch(`/issues/type/${issueId}`, {type: newType}).then(response => {
+        console.log(response);
+    }).catch(error => {
+        console.log(error);
+    })
+}
