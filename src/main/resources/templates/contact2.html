@@ -59,35 +59,13 @@
 
                 <div class="text-right py-3">
                     <!--Przycisk wyślij-->
-                    <button type="submit" class="btn btn-primary" th:text="#{common.send}"></button>
+                    <button type="submit" class="btn btn-primary" th:text="#{common.send}" onclick="validationMail()"></button>
 
                     <!--Przycisk powrót-->
                     <a th:href="@{/}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
                 </div>
 
             </form>
-
-            <script>
-                // Przykładowy starter JavaScript do wyłączania przesyłania formularzy, jeśli istnieją nieprawidłowe pola
-                (() => {
-                    'use strict'
-
-                    // Pobierz wszystkie formularze, do których chcemy zastosować niestandardowe style walidacji Bootstrap
-                    const forms = document.querySelectorAll('.needs-validation')
-
-                    // Zapętlaj je i zapobiegaj poddaniu się
-                    Array.from(forms).forEach(form => {
-                        form.addEventListener('submit', event => {
-                            if (!form.checkValidity()) {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-
-                            form.classList.add('was-validated')
-                        }, false)
-                    })
-                })()
-            </script>
 
         </section>
     </div>
