@@ -87,6 +87,11 @@
             <artifactId>hibernate-envers</artifactId>
             <version>6.1.7.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
