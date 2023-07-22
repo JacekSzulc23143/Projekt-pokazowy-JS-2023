@@ -90,6 +90,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th></th>
+                <th></th>
                 <!--Kod-->
                 <th th:text="#{common.code}"></th>
                 <!--Nazwa-->
@@ -108,16 +110,25 @@
             <tbody class="table-group-divider">
             <!--wyświetli w pętli wszystkie zgłoszenia-->
             <tr th:each="issue: ${issues}">
+                <td th:text="${issueStat.count}"></td>
+                <td class="col-4">
+                    <div>
+                        <span class="px-1 badge text-bg-primary" th:text="${issue.contractor.realName}"></span>
+                        <span class="px-1 badge text-bg-secondary" th:text="${#messages.msg('type.' + issue.type)}"></span>
+                        <span class="px-1 badge text-bg-danger" th:text="${#messages.msg('priority.' + issue.priority)}"></span>
+                        <span class="px-1 badge text-bg-warning" th:text="${#messages.msg('state.' + issue.state)}"></span>
+                    </div>
+                </td>
                 <td th:text="${issue.code}"></td>
                 <td th:text="${issue.name}"></td>
                 <td th:text="${issue.project.code}"></td>
                 <!--Edytuj-->
-                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}">
+                <td class="col-1" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}">
                     <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->
-                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
+                <td class="col-1" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
                     <a th:if="${issue.id}" th:href="@{/issues/delete/{id}(id=${issue.id})}"
                        class="btn btn-outline-danger"
                        th:text="#{common.delete}">
