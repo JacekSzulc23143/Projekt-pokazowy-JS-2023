@@ -40,6 +40,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th></th>
+                <th></th>
                 <!--Nazwa użytkownika-->
                 <th th:text="#{common.username}"></th>
                 <!--Imię i nazwisko-->
@@ -58,16 +60,22 @@
             <tbody class="table-group-divider">
             <!--wyświetli w pętli wszystkich użytkowników-->
             <tr th:each="per: ${person}">
+                <td th:text="${perStat.count}"></td>
+                <td class="col-4">
+                    <span th:each="auth: ${per.authorities}">
+                        <span class="px-1 badge text-bg-light" th:text="#{${'authority.' + auth}}"></span>
+                    </span>
+                </td>
                 <td th:text="${per.username}"></td>
                 <td th:text="${per.realName}"></td>
                 <td th:text="${per.email}"></td>
                 <!--Edytuj-->
-                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
+                <td class="col-1" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
                     <a th:href="@{'/people/editPersonForm/' + ${per.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->
-                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
+                <td class="col-1" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
                     <a th:if="${per.id}" th:href="@{/people/delete/{id}(id=${per.id})}"
                        class="btn btn-outline-danger"
                        th:text="#{common.delete}">

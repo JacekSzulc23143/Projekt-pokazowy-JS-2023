@@ -26,7 +26,7 @@ public class Project {
     private String name;
 
     @NotEmpty
-//    @Size(min = 3)
+    @Size(min = 3, max = 7)
     private String code;
 
     @NotEmpty
