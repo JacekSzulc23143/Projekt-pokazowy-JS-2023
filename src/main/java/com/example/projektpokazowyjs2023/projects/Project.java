@@ -1,5 +1,6 @@
 package com.example.projektpokazowyjs2023.projects;
 
+import com.example.projektpokazowyjs2023.people.Person;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -52,4 +53,8 @@ public class Project {
 
     @Column(nullable = false)
     private Boolean enabled = true; // nowy projekt domyślnie jest włączony
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Person creator; // twórca projektu
 }

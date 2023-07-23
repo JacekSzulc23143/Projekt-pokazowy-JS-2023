@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -51,6 +53,7 @@ public class IssueController {
         modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
         modelAndView.addObject("states", IssueState.values());
         modelAndView.addObject("people", personRepository.findAllByEnabled(true));
+        modelAndView.addObject("creators", issueService.findAllCreators());
         modelAndView.addObject("filter", filter);
         return modelAndView;
     }
@@ -74,7 +77,7 @@ public class IssueController {
     // komunikaty przez klasę RedirectAttributes
     @PostMapping("/save")
     @Secured("ROLE_MANAGE_PROJECT")
-    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+    ModelAndView save(@ModelAttribute @Valid Issue issue, BindingResult bindingResult, RedirectAttributes redirectAttrs, Principal principal) throws ParseException {
 
         ModelAndView modelAndView = new ModelAndView("issues/create");
 
@@ -89,7 +92,7 @@ public class IssueController {
 
         mailService.sendToContractor(issue);
 
-        issueRepository.save(issue);
+        issueService.save(issue, principal.getName());
 
         redirectAttrs.addFlashAttribute("status", "success");
 
@@ -119,7 +122,7 @@ public class IssueController {
     @PostMapping("/updateIssue")
     @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB"})
     ModelAndView updateIssue(@ModelAttribute @Valid Issue issue, BindingResult bindingResult,
-                             RedirectAttributes redirectAttrs) {
+                             RedirectAttributes redirectAttrs, Principal principal) throws ParseException {
 
         ModelAndView modelAndView = new ModelAndView("issues/update");
 
@@ -132,7 +135,7 @@ public class IssueController {
             return modelAndView;
         }
 
-        issueRepository.save(issue);
+        issueService.save(issue, principal.getName());
 
         redirectAttrs.addFlashAttribute("status", "success");
 

@@ -21,14 +21,6 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class) // listener który obsługuje rewizję
 public class Issue {
 
-    @ManyToOne(optional = false) // Ze strony Issue do Project. Optional wymagana relacja.
-    @JoinColumn(name = "project_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
-    private Project project;
-
-    @ManyToOne(optional = false) // Ze strony Person do Project. Optional wymagana relacja.
-    @JoinColumn(name = "contractor_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
-    private Person contractor;
-
     @Id
     @GeneratedValue
     private Long id; // id generowane automatycznie
@@ -66,13 +58,17 @@ public class Issue {
     @Column(nullable = false) // pole obowiązkowe
     private Boolean enabled = true; // nowe zadanie domyślnie jest włączone
 
-//    @ManyToOne
-//    @JoinColumn(name = "creator_id", nullable = false)
-//    private Person creator; // twórca zgłoszenia
-//
-//    @ManyToOne
-//    @JoinColumn(name = "assignee_id")
-//    private Person assignee; // osoba która ma zadanie wykonać
+    @ManyToOne(optional = false) // Ze strony Issue do Project. Optional wymagana relacja.
+    @JoinColumn(name = "project_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
+    private Project project;
+
+    @ManyToOne(optional = false) // Ze strony Person do Project. Optional wymagana relacja.
+    @JoinColumn(name = "contractor_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
+    private Person contractor;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Person creator; // twórca zgłoszenia
 
     // kolumna w tabelce z domyślnym typem zgłoszenia
     @Column(nullable = false) // pole obowiązkowe
