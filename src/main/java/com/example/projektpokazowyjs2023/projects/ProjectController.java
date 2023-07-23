@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.text.ParseException;
+
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
@@ -29,6 +32,7 @@ public class ProjectController {
 
         modelAndView.addObject("projects", projectRepository.findAll(filter.buildQuery(),pageable)); // zwróci listę wszystkich projektów
         // zapisanych w bazie danych
+        modelAndView.addObject("creators", projectService.findAllCreators());
         modelAndView.addObject("filter", filter);
         return modelAndView;
     }
@@ -69,7 +73,7 @@ public class ProjectController {
      */
     @PostMapping("/save")
     @Secured("ROLE_MANAGE_PROJECT")
-    ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+    ModelAndView save(@ModelAttribute @Valid Project project, BindingResult bindingResult, RedirectAttributes redirectAttrs, Principal principal) throws ParseException {
 
         ModelAndView modelAndView = new ModelAndView("projects/create");
 
@@ -82,7 +86,7 @@ public class ProjectController {
 
         boolean isNew = project.getId() == null; // sprawdza czy nowy projekt
 
-        projectRepository.save(project);
+        projectService.save(project, principal.getName());
 
         redirectAttrs.addFlashAttribute("status", "success");
 

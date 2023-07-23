@@ -1,13 +1,21 @@
 package com.example.projektpokazowyjs2023.issues;
 
+import com.example.projektpokazowyjs2023.people.Person;
+import com.example.projektpokazowyjs2023.people.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class IssueService {
 
     private final IssueRepository issueRepository;
+    private final PersonRepository personRepository;
 
     // metoda, która miękko usuwa zgłoszenie
     public void softDelete(Issue issue){
@@ -34,5 +42,23 @@ public class IssueService {
         Issue issue = issueRepository.getReferenceById(id);
         issue.setType(type);
         issueRepository.save(issue);
+    }
+
+    public List<Issue> findAllEnabled() {
+        return issueRepository.findAllByEnabled(true);
+    }
+
+    public Set<Person> findAllCreators() {
+        return findAllEnabled()
+                .stream()
+                .map(Issue::getCreator)
+                .collect(Collectors.toSet());
+    }
+
+    // metoda, która zapisuje twórcę do zgłoszenia
+    public Issue save(Issue issue, String creatorName) throws ParseException {
+        Person creator = personRepository.findByUsername(creatorName);
+        issue.setCreator(creator);
+        return issueRepository.save(issue);
     }
 }
