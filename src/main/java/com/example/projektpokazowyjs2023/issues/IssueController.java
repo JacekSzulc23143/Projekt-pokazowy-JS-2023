@@ -90,8 +90,6 @@ public class IssueController {
             return modelAndView;
         }
 
-        mailService.sendToContractor(issue);
-
         issueService.save(issue, principal.getName());
 
         redirectAttrs.addFlashAttribute("status", "success");
@@ -135,7 +133,7 @@ public class IssueController {
             return modelAndView;
         }
 
-        issueService.save(issue, principal.getName());
+        issueService.updateIssue(issue, principal.getName());
 
         redirectAttrs.addFlashAttribute("status", "success");
 

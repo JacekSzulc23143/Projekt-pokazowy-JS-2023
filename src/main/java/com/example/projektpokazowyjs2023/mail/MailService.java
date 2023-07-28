@@ -43,8 +43,27 @@ public class MailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setTo(issue.getContractor().getEmail());
-            mimeMessageHelper.setSubject(issue.getName());
+            mimeMessageHelper.setSubject("/BUG TRACKER/ - zgłoszenie o nazwie " + "\"" + issue.getName() + "\"");
             mimeMessageHelper.setText("Dzień dobry," +"\r\n"+ "zostało przydzielone do Ciebie zgłoszenie, dotyczy: " + issue.getDescription() +"\r\n"+
+                    "Więcej informacji dostępnych jest w aplikacji \"Bug Tracker\"." +"\r\n"+ "Prosimy nie odpowiadać" +
+                    " na tę wiadomość.");
+
+            javaMailSender.send(mimeMessage);
+            System.out.println("Wysłanie E-maila powiodło się!");
+        } catch (Exception e) {
+            System.out.println("Wysłanie E-maila nie powiodło się! " + e);
+        }
+    }
+
+    // metoda wysyłająca E-maila do twórcy zgłoszenia, który jest wysyłany w momencie wykonania zgłoszenia.
+    public void sendToCreator(Issue issue) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+            mimeMessageHelper.setTo(issue.getCreator().getEmail());
+            mimeMessageHelper.setSubject("/BUG TRACKER/ - zgłoszenie o nazwie " + "\"" + issue.getName() + "\"");
+            mimeMessageHelper.setText("Dzień dobry," +"\r\n"+ "zostało wykonane zgłoszenie, dotyczy: " + issue.getDescription() +"\r\n"+
                     "Więcej informacji dostępnych jest w aplikacji \"Bug Tracker\"." +"\r\n"+ "Prosimy nie odpowiadać" +
                     " na tę wiadomość.");
 
