@@ -92,8 +92,7 @@
             <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
 
             <!--Przycisk anuluj-->
-            <a th:if="${project.id}" th:href="@{../edit/{id}(id=${project.id})}" class="btn btn-secondary"
-               th:text="#{common.cancel}"></a>
+            <button th:if="${project.id}" type="reset" class="btn btn-secondary" th:text="#{common.cancel}"></button>
 
             <!--Przycisk usuń-->
             <a th:if="${project.id}" th:href="@{../delete/{id}(id=${project.id})}" class="btn btn-danger"

@@ -171,8 +171,7 @@
             <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
 
             <!--Przycisk anuluj-->
-            <a th:if="${issue.id}" th:href="@{../edit/{id}(id=${issue.id})}" class="btn btn-secondary"
-               th:text="#{common.cancel}"></a>
+            <button th:if="${issue.id}" type="reset" class="btn btn-secondary" th:text="#{common.cancel}"></button>
 
             <!--Przycisk usuń-->
             <span th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">

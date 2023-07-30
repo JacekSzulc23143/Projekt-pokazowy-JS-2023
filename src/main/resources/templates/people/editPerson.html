@@ -122,8 +122,7 @@
             <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
 
             <!--Przycisk anuluj-->
-            <a th:href="@{../editPersonForm/{id}(id=${personForm.id})}" class="btn btn-secondary"
-               th:text="#{common.cancel}"></a>
+            <button type="reset" class="btn btn-secondary" th:text="#{common.cancel}"></button>
 
             <!--Przycisk usuń-->
             <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
