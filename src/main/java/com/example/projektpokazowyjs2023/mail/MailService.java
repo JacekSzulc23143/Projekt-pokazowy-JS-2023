@@ -8,6 +8,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -22,9 +26,20 @@ public class MailService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
+/*
+            https://www.baeldung.com/java-localization-messages-formatting
+            https://www.baeldung.com/java-8-localization
+*/
+
+            Locale defaultLocale = Locale.getDefault();
+            ResourceBundle bundle = ResourceBundle.getBundle("languages/mail", defaultLocale);
+
+            String subject0 = bundle.getString("subject0");
+            String content0 = bundle.getString("content0");
+
             mimeMessageHelper.setTo("jacekpa23143@gmail.com");
-            mimeMessageHelper.setSubject(mail.subject);
-            mimeMessageHelper.setText("Wiadomość od: " + mail.recipient +"\r\n"+ mail.content);
+            mimeMessageHelper.setSubject(subject0 + " " + "- " + mail.subject + " -");
+            mimeMessageHelper.setText(content0 + "\n-----\n" + mail.content + "\n-----");
             mimeMessageHelper.addAttachment(mail.attachment.getOriginalFilename(), mail.attachment); // dodanie
             // załącznika do meila
 
@@ -42,11 +57,18 @@ public class MailService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
+            Locale defaultLocale = Locale.getDefault();
+            ResourceBundle bundle = ResourceBundle.getBundle("languages/mail", defaultLocale);
+
+            String subject1 = bundle.getString("subject1");
+            String content1 = bundle.getString("content1");
+
+            String subjectFormat1 = MessageFormat.format(subject1, issue.getName());
+            String contentFormat1 = MessageFormat.format(content1, issue.getDescription());
+
             mimeMessageHelper.setTo(issue.getContractor().getEmail());
-            mimeMessageHelper.setSubject("/BUG TRACKER/ - zgłoszenie o nazwie " + "\"" + issue.getName() + "\"");
-            mimeMessageHelper.setText("Dzień dobry," +"\r\n"+ "zostało przydzielone do Ciebie zgłoszenie, dotyczy: " + issue.getDescription() +"\r\n"+
-                    "Więcej informacji dostępnych jest w aplikacji \"Bug Tracker\"." +"\r\n"+ "Prosimy nie odpowiadać" +
-                    " na tę wiadomość.");
+            mimeMessageHelper.setSubject(subjectFormat1);
+            mimeMessageHelper.setText(contentFormat1);
 
             javaMailSender.send(mimeMessage);
             System.out.println("Wysłanie E-maila powiodło się!");
@@ -61,11 +83,18 @@ public class MailService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
+            Locale defaultLocale = Locale.getDefault();
+            ResourceBundle bundle = ResourceBundle.getBundle("languages/mail", defaultLocale);
+
+            String subject2 = bundle.getString("subject2");
+            String content2 = bundle.getString("content2");
+
+            String subjectFormat2 = MessageFormat.format(subject2, issue.getName());
+            String contentFormat2 = MessageFormat.format(content2, issue.getDescription());
+
             mimeMessageHelper.setTo(issue.getCreator().getEmail());
-            mimeMessageHelper.setSubject("/BUG TRACKER/ - zgłoszenie o nazwie " + "\"" + issue.getName() + "\"");
-            mimeMessageHelper.setText("Dzień dobry," +"\r\n"+ "zostało wykonane zgłoszenie, dotyczy: " + issue.getDescription() +"\r\n"+
-                    "Więcej informacji dostępnych jest w aplikacji \"Bug Tracker\"." +"\r\n"+ "Prosimy nie odpowiadać" +
-                    " na tę wiadomość.");
+            mimeMessageHelper.setSubject(subjectFormat2);
+            mimeMessageHelper.setText(contentFormat2);
 
             javaMailSender.send(mimeMessage);
             System.out.println("Wysłanie E-maila powiodło się!");
