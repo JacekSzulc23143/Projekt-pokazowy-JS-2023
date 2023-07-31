@@ -123,8 +123,15 @@
                 <td th:text="${issue.name}"></td>
                 <td th:text="${issue.project.code}"></td>
                 <!--Edytuj-->
-                <td class="col-1" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')} or ${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}">
+                <td class="col-1" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
                     <a th:href="@{'/issues/edit/' + ${issue.id}}" class="btn btn-outline-secondary"
+                       th:text="#{common.edit}"></a>
+                </td>
+                <!--Edytuj dla użytkownika-->
+                <td class="col-1"
+                    th:if="${#authorization.expression('hasRole(''ROLE_USER_TAB'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')} or ${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}"
+                    th:hidden="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')}">
+                    <a th:href="@{'/issues/editForm/' + ${issue.id}}" class="btn btn-outline-secondary"
                        th:text="#{common.edit}"></a>
                 </td>
                 <!--Usuń-->

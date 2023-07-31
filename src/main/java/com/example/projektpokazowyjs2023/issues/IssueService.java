@@ -32,9 +32,9 @@ public class IssueService {
         Issue issue = issueRepository.getReferenceById(id);
         issue.setState(state);
         issueRepository.save(issue);
-        if (state == DONE) {
-            mailService.sendToCreator(issue);
-        }
+//        if (state == DONE) {
+//            mailService.sendToCreator(issue);
+//        }
     }
 
     // metoda, która aktualizuje priorytet zgłoszenia
@@ -71,9 +71,20 @@ public class IssueService {
     }
 
     // metoda, która aktualizuje twórcę do zgłoszenia
-    public Issue updateIssue(Issue issue, String creatorName) throws ParseException {
+    public Issue save2(Issue issue, String creatorName) throws ParseException {
         Person creator = personRepository.findByUsername(creatorName);
         issue.setCreator(creator);
         return issueRepository.save(issue);
+    }
+
+    // metoda, która aktualizuje zgłoszenie przez wykonawcę
+    public void updateIssue(IssueForm issueForm) {
+        Issue issue = issueRepository.findById(issueForm.id).orElse(null);
+        issue.description = issueForm.description;
+        issue.state = issueForm.state;
+        if (issue.getState() == DONE) {
+            mailService.sendToCreator(issue);
+        }
+        issueRepository.save(issue);
     }
 }

@@ -4,56 +4,26 @@ import com.example.projektpokazowyjs2023.people.Person;
 import com.example.projektpokazowyjs2023.projects.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.util.Date;
 
 
 @Data // zastępuje kilka adnotacji jedną np. Getter, Setter
-@Entity // adnotacja: hibernate automatycznie utworzy tabelkę Issue
 @EntityListeners(AuditingEntityListener.class) // listener który obsługuje rewizję
-public class Issue {
+@NoArgsConstructor
+public class IssueForm {
 
-    @Id
-    @GeneratedValue
-    public Long id; // id generowane automatycznie
+    public Long id;
 
-    @Audited
-    @NotEmpty
-//    @Size(min = 5)
     public String name;
 
-    @NotEmpty
-    @Size(min = 3, max = 7)
     public String code;
 
     @NotEmpty
-//    @Size(min = 10)
     @Column(columnDefinition = "TEXT") // dowolna liczba znaków tekstowych w polu tekstowym
     public String description;
-
-    @CreatedDate
-    @Column(updatable = false)
-    public Date dateCreated;
-
-    @LastModifiedDate
-    @Column
-    public Date lastUpdated;
-
-    @CreatedBy
-    @Column(updatable = false)
-    public String createdBy;
-
-    @LastModifiedBy
-    @Column
-    public String lastUpdatedBy;
 
     @Column(nullable = false) // pole obowiązkowe
     public Boolean enabled = true; // nowe zadanie domyślnie jest włączone
@@ -85,4 +55,17 @@ public class Issue {
     @Column(nullable = false) // pole obowiązkowe
     @Enumerated(EnumType.STRING) // w bazie danych pojawi się wyraz zamiast nr
     public IssueState state = IssueState.OPEN;
+
+    public IssueForm(Issue issue) {
+        this.id = issue.id;
+        this.name = issue.name;
+        this.code = issue.code;
+        this.description = issue.description;
+        this.project = issue.project;
+        this.contractor = issue.contractor;
+        this.creator = issue.creator;
+        this.type = issue.type;
+        this.priority = issue.priority;
+        this.state = issue.state;
+    }
 }
