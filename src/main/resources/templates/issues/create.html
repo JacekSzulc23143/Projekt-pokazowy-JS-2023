@@ -23,6 +23,9 @@
         <!--Nowe zgłoszenie-->
         <h1 th:if="${issue.id == null}" th:text="#{problem.create}"></h1>
 
+        <!--Edycja zgłoszenia-->
+        <h1 th:if="${issue.id != null}" th:text="|#{problem.issueEdition} ${issue.code}|"></h1>
+
         <form th:action="@{/issues/save}" th:object="${issue}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
@@ -116,7 +119,7 @@
                             <label for="issue-code" class="form-label" th:text="#{common.code}"></label>
                         </div>
                         <div class="col-3">
-                            <input type="text" placeholder="BUG"
+                            <input type="text" placeholder="BUG-001"
                                    th:class="'form-control ' + ${#fields.hasErrors('code') ? 'is-invalid' : ''}"
                                    id="issue-code"
                                    th:field="*{code}">

@@ -90,20 +90,26 @@ public class IssueController {
             return modelAndView;
         }
 
-        issueService.save(issue, principal.getName());
+        boolean isNew = issue.getId() == null; // sprawdza czy nowe zgłoszenie
+
+        if (isNew) { // podejmuje decyzje dokąd przenieść
+            issueService.save(issue, principal.getName());
+            modelAndView.setViewName("redirect:/issues");
+        } else {
+            issueService.save2(issue, principal.getName());
+            modelAndView.setViewName("redirect:/issues/edit/" + issue.getId());
+        }
 
         redirectAttrs.addFlashAttribute("status", "success");
-
-        modelAndView.setViewName("redirect:/issues");
 
         return modelAndView;
     }
 
     // edycja formularza zgłoszeń
     @GetMapping("/edit/{id}")
-    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
+    @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView edit(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("issues/update");
+        ModelAndView modelAndView = new ModelAndView("issues/create");
 
         Issue issue = issueRepository.findById(id).orElse(null);
 
@@ -114,46 +120,63 @@ public class IssueController {
         return modelAndView;
     }
 
-    // wysłanie formularza do akcji updateIssue
-    // dostęp do błędów przez klasę BindingResult
-    // komunikaty przez klasę RedirectAttributes
-    @PostMapping("/updateIssue")
-    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB"})
-    ModelAndView updateIssue(@ModelAttribute @Valid Issue issue, BindingResult bindingResult,
-                             RedirectAttributes redirectAttrs, Principal principal) throws ParseException {
-
-        ModelAndView modelAndView = new ModelAndView("issues/update");
-
-        // obsługa błędów
-        if (bindingResult.hasErrors()) {
-            modelAndView.addObject("issue", issue);
-            modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
-            modelAndView.addObject("people", personRepository.findAllByEnabled(true));
-            modelAndView.addObject("status", "error");
-            return modelAndView;
-        }
-
-        issueService.updateIssue(issue, principal.getName());
-
-        redirectAttrs.addFlashAttribute("status", "success");
-
-        modelAndView.setViewName("redirect:/issues/edit/" + issue.getId());
-
-        return modelAndView;
-    }
-
     // usuwanie zgłoszenia
     // komunikaty przez klasę RedirectAttributes
     @GetMapping("/delete/{id}")
     @Secured("ROLE_MANAGE_PROJECT")
     ModelAndView deleteIssue(@PathVariable Long id, RedirectAttributes redirectAttrs) {
-        ModelAndView modelAndView = new ModelAndView("issues/create");
+        ModelAndView modelAndView = new ModelAndView();
 
         issueService.softDelete(issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id zgłoszenia:" + id)));
 
         redirectAttrs.addFlashAttribute("status", "success");
 
         modelAndView.setViewName("redirect:/issues");
+
+        return modelAndView;
+    }
+
+    // edycja formularza zgłoszeń przez wykonawcę
+    @GetMapping("/editForm/{id}")
+    @Secured({"ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
+    ModelAndView editForm(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("issues/update");
+
+        Issue issue = issueRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nieprawidłowe id zgłoszenia: " + id));
+
+        modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+        modelAndView.addObject("people", personRepository.findAllByEnabled(true));
+        modelAndView.addObject("issueForm", new IssueForm(issue));
+
+        return modelAndView;
+    }
+
+    // wysłanie formularza do akcji updateIssue
+    // dostęp do błędów przez klasę BindingResult
+    // komunikaty przez klasę RedirectAttributes
+    @PostMapping("/updateIssue/{id}")
+    @Secured({"ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
+    ModelAndView updateIssue(@PathVariable Long id, @Valid IssueForm issueForm, BindingResult bindingResult,
+                             RedirectAttributes redirectAttrs) {
+
+        ModelAndView modelAndView = new ModelAndView("issues/update");
+
+        // obsługa błędów
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
+            modelAndView.addObject("people", personRepository.findAllByEnabled(true));
+            modelAndView.addObject("issueForm", issueForm);
+            issueForm.setId(id);
+            modelAndView.addObject("status", "error");
+            return modelAndView;
+        }
+
+        issueService.updateIssue(issueForm);
+
+        redirectAttrs.addFlashAttribute("status", "success");
+
+        modelAndView.setViewName("redirect:/issues/editForm/" + issueForm.getId());
 
         return modelAndView;
     }
