@@ -49,14 +49,14 @@
                     <!--Obsługa wykonawcy zgłoszenia-->
                     <div class="mb-3 row">
                         <div class="col-4">
-                            <label for="contractor" class="form-label" th:text="#{problem.contractor}"></label>
+                            <label for="assignee" class="form-label" th:text="#{problem.assignee}"></label>
                         </div>
                         <div class="col">
-                            <select id="contractor" class="form-select" th:field="*{contractor}"
+                            <select id="assignee" class="form-select" th:field="*{assignee}"
                                     th:disabled="!(${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECT'')')})">
-                                <option th:each="contractor : ${people}"
-                                        th:value="${contractor.id}"
-                                        th:text="${contractor.username}">
+                                <option th:each="assignee : ${people}"
+                                        th:value="${assignee.id}"
+                                        th:text="${assignee.username}">
                                 </option>
                             </select>
                         </div>

@@ -66,7 +66,7 @@ public class IssueService {
     public Issue save(Issue issue, String creatorName) throws ParseException {
         Person creator = personRepository.findByUsername(creatorName);
         issue.setCreator(creator);
-        mailService.sendToContractor(issue);
+        mailService.sendToAssignee(issue);
         return issueRepository.save(issue);
     }
 

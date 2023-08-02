@@ -18,7 +18,7 @@ public class IssueFilter {
 
     private IssueState state;
 
-    private Person contractor;
+    private Person assignee;
 
     private Issue enabled;
 
@@ -36,8 +36,8 @@ public class IssueFilter {
         return (root, query, builder) -> builder.equal(root.get("state"), state);
     }
 
-    private Specification<Issue> hasContractor() {
-        return (root, query, builder) -> builder.equal(root.get("contractor"), contractor);
+    private Specification<Issue> hasAssignee() {
+        return (root, query, builder) -> builder.equal(root.get("assignee"), assignee);
     }
 
     public Specification<Issue> buildQuery() {
@@ -51,8 +51,8 @@ public class IssueFilter {
             spec = spec.and(hasState());
         }
 
-        if (contractor != null) {
-            spec = spec.and(hasContractor());
+        if (assignee != null) {
+            spec = spec.and(hasAssignee());
         }
 
         return spec;
@@ -64,7 +64,7 @@ public class IssueFilter {
                 "&sort=" + toSortString(sort) +
                 (project != null ? "&project=" + project.getId() : "") +
                 (state != null ? "&state=" + state : "") +
-                (contractor != null ? "&contractor=" + contractor.getId() : "");
+                (assignee != null ? "&assignee=" + assignee.getId() : "");
 //                (enabled != null ? "&enabled=" + enabled : "");
     }
 
