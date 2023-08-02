@@ -48,9 +48,9 @@
 
             <!--Szukaj po wykonawcy-->
             <div class="col py-3">
-                <select th:field="*{contractor}"
+                <select th:field="*{assignee}"
                         class="form-select ml-2">
-                    <option th:value="${null}" th:text="#{contractor.placeholder}"></option>
+                    <option th:value="${null}" th:text="#{assignee.placeholder}"></option>
                     <option th:each="person : ${people}"
                             th:value="${person.id}"
                             th:text="${person.realName}">
@@ -113,7 +113,7 @@
                 <td th:text="${issueStat.count}"></td>
                 <td class="col-4">
                     <div>
-                        <span class="px-1 badge text-bg-primary" th:text="${issue.contractor.realName}"></span>
+                        <span class="px-1 badge text-bg-primary" th:text="${issue.assignee.realName}"></span>
                         <span class="px-1 badge text-bg-secondary" th:text="${#messages.msg('type.' + issue.type)}"></span>
                         <span class="px-1 badge text-bg-danger" th:text="${#messages.msg('priority.' + issue.priority)}"></span>
                         <span class="px-1 badge text-bg-warning" th:text="${#messages.msg('state.' + issue.state)}"></span>

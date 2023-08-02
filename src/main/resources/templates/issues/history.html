@@ -47,13 +47,13 @@
                     <!--Obsługa wykonawcy zgłoszenia-->
                     <div class="mb-3 row">
                         <div class="col-4">
-                            <label for="contractor" class="form-label" th:text="#{problem.contractor}"></label>
+                            <label for="assignee" class="form-label" th:text="#{problem.assignee}"></label>
                         </div>
                         <div class="col">
-                            <select id="contractor" class="form-select" th:field="*{contractor}">
-                                <option th:each="contractor : ${people}"
-                                        th:value="${contractor.id}"
-                                        th:text="${contractor.username}">
+                            <select id="assignee" class="form-select" th:field="*{assignee}">
+                                <option th:each="assignee : ${people}"
+                                        th:value="${assignee.id}"
+                                        th:text="${assignee.username}">
                                 </option>
                             </select>
                         </div>
@@ -184,7 +184,7 @@
 
             <!--Przycisk historii-->
             <span class="float-end py-3">
-                <a th:if="${issue.id}" th:href="@{'/issues/history/' + ${issue.getId()}}">
+                <a th:if="${issue.id}" th:href="@{'/audit/history/' + ${issue.getId()}}">
                     <i class="fa-solid fa-clock-rotate-left fa-2xl float-end" style="color: #414449;"></i>
                 </a>
             </span>
@@ -199,7 +199,7 @@
                 <!--Data-->
                 <th th:text="#{common.date}"></th>
                 <!--Wykonawca-->
-                <th th:text="#{problem.contractor}"></th>
+                <th th:text="#{problem.assignee}"></th>
                 <!--Rodzaj rewizji-->
                 <th th:text="#{common.revtype}"></th>
                 <!--Nazwa zgłoszenia-->

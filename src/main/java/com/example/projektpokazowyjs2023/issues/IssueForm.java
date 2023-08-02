@@ -33,8 +33,8 @@ public class IssueForm {
     public Project project;
 
     @ManyToOne(optional = false) // Ze strony Person do Project. Optional wymagana relacja.
-    @JoinColumn(name = "contractor_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
-    public Person contractor;
+    @JoinColumn(name = "assignee_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
+    public Person assignee;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "creator_id", nullable = false)
@@ -62,7 +62,7 @@ public class IssueForm {
         this.code = issue.code;
         this.description = issue.description;
         this.project = issue.project;
-        this.contractor = issue.contractor;
+        this.assignee = issue.assignee;
         this.creator = issue.creator;
         this.type = issue.type;
         this.priority = issue.priority;

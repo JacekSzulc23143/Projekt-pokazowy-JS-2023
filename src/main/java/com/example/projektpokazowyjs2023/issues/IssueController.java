@@ -1,14 +1,10 @@
 package com.example.projektpokazowyjs2023.issues;
 
-import com.example.projektpokazowyjs2023.audit.AuditDataDTO;
 import com.example.projektpokazowyjs2023.mail.MailService;
 import com.example.projektpokazowyjs2023.people.PersonRepository;
 import com.example.projektpokazowyjs2023.projects.ProjectRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
-import org.hibernate.envers.query.AuditEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -20,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/issues")
@@ -177,32 +172,6 @@ public class IssueController {
         redirectAttrs.addFlashAttribute("status", "success");
 
         modelAndView.setViewName("redirect:/issues/editForm/" + issueForm.getId());
-
-        return modelAndView;
-    }
-
-    // Historia wybranego zgłoszenia
-    @GetMapping("/history/{id}")
-    @Secured({"ROLE_MANAGE_PROJECT", "ROLE_USER_TAB", "ROLE_MANAGE_COMMENTS"})
-    ModelAndView history(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("issues/history");
-
-        Issue issue = issueRepository.findById(id).orElse(null);
-
-        modelAndView.addObject("issue", issue);
-        modelAndView.addObject("projects", projectRepository.findAllByEnabled(true));
-        modelAndView.addObject("people", personRepository.findAllByEnabled(true));
-
-        AuditReader auditReader = AuditReaderFactory.get(entityManager);
-
-        // Zapytanie, które zwraca listę wszystkich rewizji
-        List<Object[]> rawRevisions = auditReader.createQuery()
-                .forRevisionsOfEntity(Issue.class, false, true)
-                .add(AuditEntity.id().eq(id))
-                .getResultList();
-
-        List<AuditDataDTO> revisions = rawRevisions.stream().map(AuditDataDTO::new).toList();
-        modelAndView.addObject("revisions", revisions);
 
         return modelAndView;
     }

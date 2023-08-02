@@ -52,7 +52,7 @@ public class MailService {
 
     // metoda wysyłająca E-maila do osoby przypisanej do zgłoszenia, który jest wysyłany w momencie przydzielenia jej
     // jakiegoś zadania.
-    public void sendToContractor(Issue issue) {
+    public void sendToAssignee(Issue issue) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -66,7 +66,7 @@ public class MailService {
             String subjectFormat1 = MessageFormat.format(subject1, issue.getName());
             String contentFormat1 = MessageFormat.format(content1, issue.getDescription());
 
-            mimeMessageHelper.setTo(issue.getContractor().getEmail());
+            mimeMessageHelper.setTo(issue.getAssignee().getEmail());
             mimeMessageHelper.setSubject(subjectFormat1);
             mimeMessageHelper.setText(contentFormat1);
 

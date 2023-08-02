@@ -63,8 +63,8 @@ public class Issue {
     public Project project;
 
     @ManyToOne(optional = false) // Ze strony Person do Project. Optional wymagana relacja.
-    @JoinColumn(name = "contractor_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
-    public Person contractor;
+    @JoinColumn(name = "assignee_id", nullable = false) // Nazwa kolumny w tabelce issue. Kolumna nie może być nullem.
+    public Person assignee;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "creator_id", nullable = false)
