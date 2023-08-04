@@ -10,84 +10,106 @@
 <section layout:fragment="custom-content">
     <div class="container">
 
-        <!--Dane użytkownika-->
-        <h1 th:text="|#{people.userData} ${person.realName}|"></h1>
-
         <form th:object="${person}">
 
-            <!--Nazwa użytkownika-->
-            <div class="mb-3 row mt-3">
-                <div class="col-2">
-                    <label for="person-username" class="form-label" th:text="#{common.username}"></label>
-                </div>
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        <img src="/images/user-profile.png" class="img-fluid rounded-start" alt="user-profile">
+                    </div>
 
-                <div class="col-4">
-                    <input type="text"
-                           id="person-username"
-                           th:field="*{username}"
-                           class="form-control"
-                           disabled>
-                    <div class="form-text"></div>
-                </div>
-            </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <!--Dane użytkownika-->
+                            <h1 class="card-title" th:text="|#{people.userData} ${person.realName}|"></h1>
 
-            <!--Imię i nazwisko-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label for="person-realName" class="form-label" th:text="#{common.realName}"></label>
-                </div>
+                            <p class="card-text">
+                                <div class="mb-3 row mt-3">
+                                    <div class="col">
+                                        <!--Nazwa użytkownika-->
+                                        <div class="mb-3 row mt-3">
+                                            <div class="col-3">
+                                                <label for="person-username" class="form-label" th:text="#{common.username}"></label>
+                                            </div>
 
-                <div class="col-4">
-                    <input type="text"
-                           id="person-realName"
-                           th:field="*{realName}"
-                           class="form-control"
-                           disabled>
-                    <div class="form-text"></div>
-                </div>
-            </div>
+                                            <div class="col-6">
+                                                <input type="text"
+                                                       id="person-username"
+                                                       th:field="*{username}"
+                                                       class="form-control"
+                                                       disabled>
+                                            </div>
+                                            <div class="form-text"></div>
+                                        </div>
 
-            <!--Email-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label for="person-email" class="form-label" th:text="#{common.email}"></label>
-                </div>
+                                        <!--Imię i nazwisko-->
+                                        <div class="mb-3 row">
+                                            <div class="col-3">
+                                                <label for="person-realName" class="form-label" th:text="#{common.realName}"></label>
+                                            </div>
 
-                <div class="col-4">
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email"
-                               id="person-email"
-                               th:field="*{email}"
-                               class="form-control"
-                               disabled>
-                        <div class="form-text"></div>
+                                            <div class="col-6">
+                                                <input type="text"
+                                                       id="person-realName"
+                                                       th:field="*{realName}"
+                                                       class="form-control"
+                                                       disabled>
+                                            </div>
+                                            <div class="form-text"></div>
+                                        </div>
+
+                                        <!--Email-->
+                                        <div class="mb-3 row">
+                                            <div class="col-3">
+                                                <label for="person-email" class="form-label" th:text="#{common.email}"></label>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                                    <input type="email"
+                                                           id="person-email"
+                                                           th:field="*{email}"
+                                                           class="form-control"
+                                                           disabled>
+                                                </div>
+                                                <div class="form-text"></div>
+                                            </div>
+                                        </div>
+
+                                        <!--Uprawnienia-->
+                                        <div class="mb-3 row">
+                                            <div class="col-3">
+                                                <label class="form-label" th:text="#{authority.order}"></label>
+                                            </div>
+                                            <p></p>
+                                            <div class="col">
+                                                <span th:each="authority : ${authorities}" class="px-1">
+                                                    <input type="checkbox" name="authorities"
+                                                           th:value="${authority.id}"
+                                                           th:field="*{authorities}"
+                                                           disabled>
+
+                                                    <label th:text="#{${'authority.' + authority.authority}}"
+                                                           th:for="${#ids.prev('authorities')}"></label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="d-grid gap-2 d-md-flex">
+                            <!--Edytuj-->
+                            <a th:href="@{/people/editUserForm/{id}(id=${person.id})}" class="btn btn-outline-secondary"
+                               th:text="#{common.edit}"></a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!--Uprawnienia-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label class="form-label" th:text="#{authority.order}"></label>
-                </div>
-
-                <div class="col-4">
-                    <p th:each="authority : ${authorities}">
-                        <input type="checkbox" name="authorities"
-                               th:value="${authority.id}"
-                               th:field="*{authorities}"
-                               disabled/>
-
-                        <label th:text="#{${'authority.' + authority.authority}}"
-                               th:for="${#ids.prev('authorities')}"></label>
-                    </p>
-                </div>
-            </div>
-
-            <!--Edytuj-->
-            <a th:href="@{/people/editUserForm/{id}(id=${person.id})}" class="btn btn-outline-secondary"
-               th:text="#{common.edit}"></a>
         </form>
     </div>
 </section>
