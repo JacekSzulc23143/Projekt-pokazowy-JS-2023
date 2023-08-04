@@ -13,10 +13,12 @@
         <!--Lista użytkowników-->
         <h1 class="text-center" th:text="#{people.peopleList}"></h1>
 
-        <!--Komunikaty dymkowe-->
-        <div th:if="${status == 'success'}" class="col-4 alert alert-success alert-dismissible fade show" role="alert">
-            <div th:text="#{success.message}"></div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="d-flex justify-content-center">
+            <!--Komunikaty dymkowe-->
+            <div th:if="${status == 'success'}" class="col-8 alert alert-success alert-dismissible fade show" role="alert">
+                <div th:text="#{success.message}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
 
         <!--sortowanie - strzałki-->

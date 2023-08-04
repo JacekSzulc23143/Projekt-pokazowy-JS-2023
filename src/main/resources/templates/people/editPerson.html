@@ -10,128 +10,151 @@
 <section layout:fragment="custom-content">
     <div class="container">
 
-        <!--Komunikaty dymkowe-->
-        <div th:if="${status == 'success'}" class="col-4 alert alert-warning alert-dismissible fade show" role="alert">
-            <div th:text="#{success.message}"></div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="d-flex justify-content-center">
+            <!--Komunikaty dymkowe-->
+            <div th:if="${status == 'success'}" class="col-8 alert alert-warning alert-dismissible fade show" role="alert">
+                <div th:text="#{success.message}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${status == 'error'}" class="col-8 alert alert-danger alert-dismissible fade show" role="alert">
+                <div th:text="#{error.message}"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
-        <div th:if="${status == 'error'}" class="col-4 alert alert-danger alert-dismissible fade show" role="alert">
-            <div th:text="#{error.message}"></div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <!--Edycja użytkownika-->
-        <h1 th:text="|#{people.peopleEdition} ${personForm.realName}|"></h1>
 
         <form th:action="@{/people/updatePerson/{id}(id=${personForm.id})}" th:object="${personForm}" method="post">
             <!--Przekazanie w ukrytym polu id obiektu aby było wiadomo że jest to istniejący obiekt w bazie danych-->
             <input type="hidden" th:field="*{id}">
 
-            <!--Nazwa użytkownika-->
-            <div class="mb-3 row mt-3">
-                <div class="col-2">
-                    <label for="person-username" class="form-label" th:text="#{common.username}"></label>
-                </div>
+            <div class="d-flex justify-content-center">
+                <div class="card col-8">
+                    <div class="card-header">
+                        <!--Edycja użytkownika-->
+                        <h2 class="card-title" th:text="|#{people.peopleEdition} ${personForm.realName}|"></h2>
+                    </div>
 
-                <div class="col-4">
-                    <input type="text" placeholder="Lorem"
-                           th:class="'form-control ' + ${#fields.hasErrors('username') ? 'is-invalid' : ''}"
-                           id="person-username"
-                           th:field="*{username}"
-                           autofocus>
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+                    <div class="card-body text-center">
+                        <p class="card-text">
+                            <div class="mb-3 row mt-3">
+                                <div class="col-7">
+                                    <!--Nazwa użytkownika-->
+                                    <div class="mb-3 row mt-3">
+                                        <div class="col-5">
+                                            <label for="person-username" class="form-label" th:text="#{common.username}"></label>
+                                        </div>
+
+                                        <div class="col-7">
+                                            <input type="text" placeholder="Lorem"
+                                                   th:class="'form-control ' + ${#fields.hasErrors('username') ? 'is-invalid' : ''}"
+                                                   id="person-username"
+                                                   th:field="*{username}"
+                                                   autofocus>
+                                            <div class="form-text">
+                                                <!--tekst na czerwono z błędami-->
+                                                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Imię i nazwisko-->
+                                    <div class="mb-3 row">
+                                        <div class="col-5">
+                                            <label for="person-realName" class="form-label" th:text="#{common.realName}"></label>
+                                        </div>
+
+                                        <div class="col-7">
+                                            <input type="text" placeholder="Lorem Ipsum"
+                                                   th:class="'form-control ' + ${#fields.hasErrors('realName') ? 'is-invalid' : ''}"
+                                                   id="person-realName"
+                                                   th:field="*{realName}">
+                                            <div class="form-text">
+                                                <!--tekst na czerwono z błędami-->
+                                                <span th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}"
+                                                      class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Email-->
+                                    <div class="mb-3 row">
+                                        <div class="col-5">
+                                            <label for="person-email" class="form-label" th:text="#{common.email}"></label>
+                                        </div>
+
+                                        <div class="col-7">
+                                            <div class="input-group">
+                                                <span class="input-group-text" id="basic-addon1">@</span>
+                                                <input type="email" placeholder="email@email.com"
+                                                       th:class="'form-control ' + ${#fields.hasErrors('email') ? 'is-invalid' : ''}"
+                                                       id="person-email"
+                                                       th:field="*{email}">
+                                            </div>
+                                            <div class="form-text">
+                                                <!--tekst na czerwono z błędami-->
+                                                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                                      class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Zmień hasło-->
+                                    <div class="mb-3 row">
+                                        <div class="col-5">
+                                            <label for="person-password" class="form-label" th:text="#{common.password}"></label>
+                                        </div>
+
+                                        <div class="col-7">
+                                            <a th:href="@{/people/editPassForm/{id}(id=${personForm.id})}" class="btn btn-outline-dark"
+                                               id="person-password"
+                                               th:text="#{common.changePassword}"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-5">
+                                    <div class="mb-3 row">
+                                        <!--Uprawnienia-->
+                                        <div class="mb-3 mt-3"
+                                             th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
+                                            <div class="col">
+                                                <label class="form-label" th:text="#{authority.order}"></label>
+                                            </div>
+                                            <p></p>
+                                            <div class="col">
+                                                <p th:each="authority : ${authorities}">
+                                                    <input type="checkbox" name="authorities"
+                                                           th:value="${authority.id}"
+                                                           th:field="*{authorities}">
+
+                                                    <label th:text="#{${'authority.' + authority.authority}}"
+                                                           th:for="${#ids.prev('authorities')}"></label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+
+                    <div class="card-footer text-body-secondary">
+                        <!--Przycisk zapisz-->
+                        <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
+
+                        <!--Przycisk anuluj-->
+                        <button type="reset" class="btn btn-secondary" th:text="#{common.cancel}"></button>
+
+                        <!--Przycisk usuń-->
+                        <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
+                           th:href="@{../delete/{id}(id=${personForm.id})}" class="btn btn-danger"
+                           th:text="#{common.delete}">
+                        </a>
+
+                        <!--Przycisk powrotu-->
+                        <a th:href="@{/people}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
                     </div>
                 </div>
             </div>
-
-            <!--Imię i nazwisko-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label for="person-realName" class="form-label" th:text="#{common.realName}"></label>
-                </div>
-
-                <div class="col-4">
-                    <input type="text" placeholder="Lorem Ipsum"
-                           th:class="'form-control ' + ${#fields.hasErrors('realName') ? 'is-invalid' : ''}"
-                           id="person-realName"
-                           th:field="*{realName}">
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}"
-                              class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!--Email-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label for="person-email" class="form-label" th:text="#{common.email}"></label>
-                </div>
-
-                <div class="col-4">
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                        <input type="email" placeholder="email@email.com"
-                               th:class="'form-control ' + ${#fields.hasErrors('email') ? 'is-invalid' : ''}"
-                               id="person-email"
-                               th:field="*{email}">
-                    </div>
-                    <div class="form-text">
-                        <!--tekst na czerwono z błędami-->
-                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                              class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!--Zmień hasło-->
-            <div class="mb-3 row">
-                <div class="col-2">
-                    <label for="person-password" class="form-label" th:text="#{common.password}"></label>
-                </div>
-
-                <div class="col-4">
-                    <a th:href="@{/people/editPassForm/{id}(id=${personForm.id})}" class="btn btn-outline-dark"
-                       id="person-password"
-                       th:text="#{common.changePassword}"></a>
-                </div>
-            </div>
-
-            <!--Uprawnienia-->
-            <div class="mb-3 row" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
-                <div class="col-2">
-                    <label class="form-label" th:text="#{authority.order}"></label>
-                </div>
-
-                <div class="col-4">
-                    <p th:each="authority : ${authorities}">
-                        <input type="checkbox" name="authorities"
-                               th:value="${authority.id}"
-                               th:field="*{authorities}">
-
-                        <label th:text="#{${'authority.' + authority.authority}}"
-                               th:for="${#ids.prev('authorities')}"></label>
-                    </p>
-                </div>
-            </div>
-
-            <!--Przycisk zapisz-->
-            <button type="submit" class="btn btn-primary" th:text="#{common.save}"></button>
-
-            <!--Przycisk anuluj-->
-            <button type="reset" class="btn btn-secondary" th:text="#{common.cancel}"></button>
-
-            <!--Przycisk usuń-->
-            <a th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
-               th:href="@{../delete/{id}(id=${personForm.id})}" class="btn btn-danger"
-               th:text="#{common.delete}">
-            </a>
-
-            <!--Przycisk powrotu-->
-            <a th:href="@{/people}" class="btn btn-outline-secondary" th:text="#{common.return}"></a>
         </form>
     </div>
 </section>
